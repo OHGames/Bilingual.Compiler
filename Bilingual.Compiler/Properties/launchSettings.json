@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Bilingual.Compiler": {
+      "commandName": "Project",
+      "commandLineArgs": "\"%~dp0\\..\\..\\..\\..\\ANTLR\\test.txt\""
+    }
+  }
+}
