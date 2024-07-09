@@ -16,23 +16,23 @@ scriptAttributes: SquareOpen MemberName ParenOpen expression ParenClosed SquareC
 
 /* ======================= Expressions and Statements ======================= */
 expression
-    : ParenOpen expression ParenClosed                              #ParenthesesExpression
-    | expression Pow expression                                     #PowExpr
-    | expression ( Mul | Div | Mod ) expression                     #MulDivMod
-    | expression ( Add | Sub) expression                            #AddSub
-    | expression EqualTo expression                                 #EqualToExpr
-    | expression NotEqual expression                                #NotEqualToExpr
-    | Bang expression                                               #BangExpression
-    | Sub expression                                                #NegateExpression
-    | Add expression                                                #AbsoluteValueExpression
-    | plusMinusMulDivEqual                                          #PlusMinusMulDivEqualExpression       
-    | expression ( GreaterThan | LessThan ) expression              #GreaterLessThan
-    | expression ( GreaterThanEqual | LessThanEqual) expression     #GreaterThanLessThanEqual                       
-    | incrementsAndDecrements                                       #IncrementAndDecrementExpr
-    | functionCall                                                  #FunctionCallExpr
-    | member                                                        #MemberExpression
-    | arrayAccess                                                   #ArrayAccessExpression
-    | literal                                                       #LiteralExpr
+    : ParenOpen expression ParenClosed                                          #ParenthesesExpression
+    | left=expression Pow right=expression                                      #PowExpr
+    | left=expression ( Mul | Div | Mod ) right=expression                      #MulDivMod
+    | left=expression ( Add | Sub) right=expression                             #AddSub
+    | left=expression EqualTo right=expression                                  #EqualToExpr
+    | left=expression NotEqual right=expression                                 #NotEqualToExpr
+    | Bang right=expression                                                     #BangExpression
+    | Sub right=expression                                                      #NegateExpression
+    | Add right=expression                                                      #AbsoluteValueExpression
+    | plusMinusMulDivEqual                                                      #PlusMinusMulDivEqualExpression       
+    | left=expression ( GreaterThan | LessThan ) right=expression               #GreaterLessThan
+    | left=expression ( GreaterThanEqual | LessThanEqual) right=expression      #GreaterThanLessThanEqual                       
+    | incrementsAndDecrements                                                   #IncrementAndDecrementExpr
+    | functionCall                                                              #FunctionCallExpr
+    | member                                                                    #MemberExpression
+    | arrayAccess                                                               #ArrayAccessExpression
+    | literal                                                                   #LiteralExpr
     ;
 
 literal
@@ -75,8 +75,8 @@ elseStatement: Else block;
 whileStatement: While ParenOpen expression ParenClosed block;
 doWhileStatement: Do block While ParenOpen expression ParenClosed;
 
-forStatement: For ParenOpen variableDeclaration expression Semicolon expression ParenClosed block;
-forEachStatement: Foreach ParenOpen expression In expression ParenClosed block;
+forStatement: For ParenOpen variableDeclaration loopCondition=expression Semicolon alterIndex=expression ParenClosed block;
+forEachStatement: Foreach ParenOpen item=expression In collection=expression ParenClosed block;
 
 dialogueStatement: MemberName dialogueEmotion? Colon expression;
 dialogueEmotion: ParenOpen MemberName ParenClosed;

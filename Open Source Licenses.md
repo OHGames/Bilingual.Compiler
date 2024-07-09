@@ -12,6 +12,12 @@ Licenses and attribution to code or projects used in the Bilingual Compiler.
 | Newtonsoft.Json.Bson | https://github.com/JamesNK/Newtonsoft.Json.Bson | MIT License | [License link](https://github.com/JamesNK/Newtonsoft.Json.Bson/blob/9709940da46319b7790d31a224c60f6de2beb965/LICENSE.md) | N/A |
 
 
+## Helpful Articles
+
+Learned how to use parser element labels! Made grammar with expressions much nicer to visit!
+
+https://tomassetti.me/best-practices-for-antlr-parsers/#chapter7
+
 
 ## License Texts
 

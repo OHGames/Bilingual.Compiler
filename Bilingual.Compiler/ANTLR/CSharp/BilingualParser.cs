@@ -383,6 +383,8 @@ public partial class BilingualParser : Parser {
 		}
 	}
 	public partial class AddSubContext : ExpressionContext {
+		public ExpressionContext left;
+		public ExpressionContext right;
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
 			return GetRuleContexts<ExpressionContext>();
 		}
@@ -400,13 +402,15 @@ public partial class BilingualParser : Parser {
 		}
 	}
 	public partial class PowExprContext : ExpressionContext {
+		public ExpressionContext left;
+		public ExpressionContext right;
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Pow() { return GetToken(BilingualParser.Pow, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
 			return GetRuleContexts<ExpressionContext>();
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
 			return GetRuleContext<ExpressionContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Pow() { return GetToken(BilingualParser.Pow, 0); }
 		public PowExprContext(ExpressionContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
@@ -416,6 +420,7 @@ public partial class BilingualParser : Parser {
 		}
 	}
 	public partial class BangExpressionContext : ExpressionContext {
+		public ExpressionContext right;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Bang() { return GetToken(BilingualParser.Bang, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
@@ -429,6 +434,7 @@ public partial class BilingualParser : Parser {
 		}
 	}
 	public partial class AbsoluteValueExpressionContext : ExpressionContext {
+		public ExpressionContext right;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Add() { return GetToken(BilingualParser.Add, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
@@ -442,13 +448,15 @@ public partial class BilingualParser : Parser {
 		}
 	}
 	public partial class NotEqualToExprContext : ExpressionContext {
+		public ExpressionContext left;
+		public ExpressionContext right;
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NotEqual() { return GetToken(BilingualParser.NotEqual, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
 			return GetRuleContexts<ExpressionContext>();
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
 			return GetRuleContext<ExpressionContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NotEqual() { return GetToken(BilingualParser.NotEqual, 0); }
 		public NotEqualToExprContext(ExpressionContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
@@ -458,6 +466,8 @@ public partial class BilingualParser : Parser {
 		}
 	}
 	public partial class GreaterLessThanContext : ExpressionContext {
+		public ExpressionContext left;
+		public ExpressionContext right;
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
 			return GetRuleContexts<ExpressionContext>();
 		}
@@ -489,6 +499,7 @@ public partial class BilingualParser : Parser {
 		}
 	}
 	public partial class NegateExpressionContext : ExpressionContext {
+		public ExpressionContext right;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Sub() { return GetToken(BilingualParser.Sub, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
@@ -514,6 +525,8 @@ public partial class BilingualParser : Parser {
 		}
 	}
 	public partial class MulDivModContext : ExpressionContext {
+		public ExpressionContext left;
+		public ExpressionContext right;
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
 			return GetRuleContexts<ExpressionContext>();
 		}
@@ -556,6 +569,8 @@ public partial class BilingualParser : Parser {
 		}
 	}
 	public partial class GreaterThanLessThanEqualContext : ExpressionContext {
+		public ExpressionContext left;
+		public ExpressionContext right;
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
 			return GetRuleContexts<ExpressionContext>();
 		}
@@ -597,13 +612,15 @@ public partial class BilingualParser : Parser {
 		}
 	}
 	public partial class EqualToExprContext : ExpressionContext {
+		public ExpressionContext left;
+		public ExpressionContext right;
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode EqualTo() { return GetToken(BilingualParser.EqualTo, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
 			return GetRuleContexts<ExpressionContext>();
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
 			return GetRuleContext<ExpressionContext>(i);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode EqualTo() { return GetToken(BilingualParser.EqualTo, 0); }
 		public EqualToExprContext(ExpressionContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
@@ -667,7 +684,7 @@ public partial class BilingualParser : Parser {
 				State = 109;
 				Match(Bang);
 				State = 110;
-				expression(11);
+				((BangExpressionContext)_localctx).right = expression(11);
 				}
 				break;
 			case 3:
@@ -678,7 +695,7 @@ public partial class BilingualParser : Parser {
 				State = 111;
 				Match(Sub);
 				State = 112;
-				expression(10);
+				((NegateExpressionContext)_localctx).right = expression(10);
 				}
 				break;
 			case 4:
@@ -689,7 +706,7 @@ public partial class BilingualParser : Parser {
 				State = 113;
 				Match(Add);
 				State = 114;
-				expression(9);
+				((AbsoluteValueExpressionContext)_localctx).right = expression(9);
 				}
 				break;
 			case 5:
@@ -763,18 +780,20 @@ public partial class BilingualParser : Parser {
 					case 1:
 						{
 						_localctx = new PowExprContext(new ExpressionContext(_parentctx, _parentState));
+						((PowExprContext)_localctx).left = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_expression);
 						State = 123;
 						if (!(Precpred(Context, 16))) throw new FailedPredicateException(this, "Precpred(Context, 16)");
 						State = 124;
 						Match(Pow);
 						State = 125;
-						expression(17);
+						((PowExprContext)_localctx).right = expression(17);
 						}
 						break;
 					case 2:
 						{
 						_localctx = new MulDivModContext(new ExpressionContext(_parentctx, _parentState));
+						((MulDivModContext)_localctx).left = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_expression);
 						State = 126;
 						if (!(Precpred(Context, 15))) throw new FailedPredicateException(this, "Precpred(Context, 15)");
@@ -788,12 +807,13 @@ public partial class BilingualParser : Parser {
 						    Consume();
 						}
 						State = 128;
-						expression(16);
+						((MulDivModContext)_localctx).right = expression(16);
 						}
 						break;
 					case 3:
 						{
 						_localctx = new AddSubContext(new ExpressionContext(_parentctx, _parentState));
+						((AddSubContext)_localctx).left = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_expression);
 						State = 129;
 						if (!(Precpred(Context, 14))) throw new FailedPredicateException(this, "Precpred(Context, 14)");
@@ -807,36 +827,39 @@ public partial class BilingualParser : Parser {
 						    Consume();
 						}
 						State = 131;
-						expression(15);
+						((AddSubContext)_localctx).right = expression(15);
 						}
 						break;
 					case 4:
 						{
 						_localctx = new EqualToExprContext(new ExpressionContext(_parentctx, _parentState));
+						((EqualToExprContext)_localctx).left = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_expression);
 						State = 132;
 						if (!(Precpred(Context, 13))) throw new FailedPredicateException(this, "Precpred(Context, 13)");
 						State = 133;
 						Match(EqualTo);
 						State = 134;
-						expression(14);
+						((EqualToExprContext)_localctx).right = expression(14);
 						}
 						break;
 					case 5:
 						{
 						_localctx = new NotEqualToExprContext(new ExpressionContext(_parentctx, _parentState));
+						((NotEqualToExprContext)_localctx).left = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_expression);
 						State = 135;
 						if (!(Precpred(Context, 12))) throw new FailedPredicateException(this, "Precpred(Context, 12)");
 						State = 136;
 						Match(NotEqual);
 						State = 137;
-						expression(13);
+						((NotEqualToExprContext)_localctx).right = expression(13);
 						}
 						break;
 					case 6:
 						{
 						_localctx = new GreaterLessThanContext(new ExpressionContext(_parentctx, _parentState));
+						((GreaterLessThanContext)_localctx).left = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_expression);
 						State = 138;
 						if (!(Precpred(Context, 7))) throw new FailedPredicateException(this, "Precpred(Context, 7)");
@@ -850,12 +873,13 @@ public partial class BilingualParser : Parser {
 						    Consume();
 						}
 						State = 140;
-						expression(8);
+						((GreaterLessThanContext)_localctx).right = expression(8);
 						}
 						break;
 					case 7:
 						{
 						_localctx = new GreaterThanLessThanEqualContext(new ExpressionContext(_parentctx, _parentState));
+						((GreaterThanLessThanEqualContext)_localctx).left = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_expression);
 						State = 141;
 						if (!(Precpred(Context, 6))) throw new FailedPredicateException(this, "Precpred(Context, 6)");
@@ -869,7 +893,7 @@ public partial class BilingualParser : Parser {
 						    Consume();
 						}
 						State = 143;
-						expression(7);
+						((GreaterThanLessThanEqualContext)_localctx).right = expression(7);
 						}
 						break;
 					}
@@ -1939,21 +1963,23 @@ public partial class BilingualParser : Parser {
 	}
 
 	public partial class ForStatementContext : ParserRuleContext {
+		public ExpressionContext loopCondition;
+		public ExpressionContext alterIndex;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode For() { return GetToken(BilingualParser.For, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ParenOpen() { return GetToken(BilingualParser.ParenOpen, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public VariableDeclarationContext variableDeclaration() {
 			return GetRuleContext<VariableDeclarationContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Semicolon() { return GetToken(BilingualParser.Semicolon, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ParenClosed() { return GetToken(BilingualParser.ParenClosed, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public BlockContext block() {
+			return GetRuleContext<BlockContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
 			return GetRuleContexts<ExpressionContext>();
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
 			return GetRuleContext<ExpressionContext>(i);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Semicolon() { return GetToken(BilingualParser.Semicolon, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ParenClosed() { return GetToken(BilingualParser.ParenClosed, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public BlockContext block() {
-			return GetRuleContext<BlockContext>(0);
 		}
 		public ForStatementContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -1982,11 +2008,11 @@ public partial class BilingualParser : Parser {
 			State = 261;
 			variableDeclaration();
 			State = 262;
-			expression(0);
+			_localctx.loopCondition = expression(0);
 			State = 263;
 			Match(Semicolon);
 			State = 264;
-			expression(0);
+			_localctx.alterIndex = expression(0);
 			State = 265;
 			Match(ParenClosed);
 			State = 266;
@@ -2005,18 +2031,20 @@ public partial class BilingualParser : Parser {
 	}
 
 	public partial class ForEachStatementContext : ParserRuleContext {
+		public ExpressionContext item;
+		public ExpressionContext collection;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Foreach() { return GetToken(BilingualParser.Foreach, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ParenOpen() { return GetToken(BilingualParser.ParenOpen, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode In() { return GetToken(BilingualParser.In, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ParenClosed() { return GetToken(BilingualParser.ParenClosed, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public BlockContext block() {
+			return GetRuleContext<BlockContext>(0);
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
 			return GetRuleContexts<ExpressionContext>();
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
 			return GetRuleContext<ExpressionContext>(i);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode In() { return GetToken(BilingualParser.In, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ParenClosed() { return GetToken(BilingualParser.ParenClosed, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public BlockContext block() {
-			return GetRuleContext<BlockContext>(0);
 		}
 		public ForEachStatementContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -2043,11 +2071,11 @@ public partial class BilingualParser : Parser {
 			State = 269;
 			Match(ParenOpen);
 			State = 270;
-			expression(0);
+			_localctx.item = expression(0);
 			State = 271;
 			Match(In);
 			State = 272;
-			expression(0);
+			_localctx.collection = expression(0);
 			State = 273;
 			Match(ParenClosed);
 			State = 274;

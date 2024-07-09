@@ -157,11 +157,10 @@ namespace Bilingual.Compiler
 
         public override ForEachStatement VisitForEachStatement([NotNull] BilingualParser.ForEachStatementContext context)
         {
-            var expressionContexts = context.expression();
             var blockContext = context.block();
 
-            var itemExpression = VisitExpression(expressionContexts[0]);
-            var collectionExpression = VisitExpression(expressionContexts[1]);
+            var itemExpression = VisitExpression(context.item);
+            var collectionExpression = VisitExpression(context.collection);
             var block = VisitBlock(blockContext);
 
             return new ForEachStatement(itemExpression, collectionExpression, block);
@@ -170,12 +169,11 @@ namespace Bilingual.Compiler
         public override ForStatement VisitForStatement([NotNull] BilingualParser.ForStatementContext context)
         {
             var declarationContext = context.variableDeclaration();
-            var expressionContexts = context.expression();
             var blockExpression = context.block();
 
             var declaration = VisitVariableDeclaration(declarationContext);
-            var loopExpression = VisitExpression(expressionContexts[0]);
-            var alterIndex = VisitExpression(expressionContexts[1]);
+            var loopExpression = VisitExpression(context.loopCondition);
+            var alterIndex = VisitExpression(context.alterIndex);
             var block = VisitBlock(blockExpression);
 
             return new ForStatement(declaration, loopExpression, 
@@ -362,7 +360,6 @@ namespace Bilingual.Compiler
         public override Expression VisitGreaterLessThan([NotNull] BilingualParser.GreaterLessThanContext context)
         {
             var oprContext = context.GreaterThan() ?? context.LessThan();
-            var expressionContexts = context.expression();
 
             var operation = oprContext.GetText() switch
             {
@@ -372,9 +369,8 @@ namespace Bilingual.Compiler
                     $" See line {context.Start.Line}.")
             };
 
-            var left = VisitExpression(expressionContexts[0]);
-            var right = VisitExpression(expressionContexts[1]);
-
+            var left = VisitExpression(context.left);
+            var right = VisitExpression(context.right);
 
             if (VisitorHelpers.CanFold(left, right, out double l, out double r))
             {
@@ -388,7 +384,6 @@ namespace Bilingual.Compiler
             ([NotNull] BilingualParser.GreaterThanLessThanEqualContext context)
         {
             var oprContext = context.GreaterThanEqual() ?? context.LessThanEqual();
-            var expressionContexts = context.expression();
 
             var operation = oprContext.GetText() switch
             {
@@ -398,8 +393,8 @@ namespace Bilingual.Compiler
                     $" See line {context.Start.Line}.")
             };
 
-            var left = VisitExpression(expressionContexts[0]);
-            var right = VisitExpression(expressionContexts[1]);
+            var left = VisitExpression(context.left);
+            var right = VisitExpression(context.right);
 
             if (VisitorHelpers.CanFold(left, right, out double l, out double r))
             {
@@ -538,10 +533,8 @@ namespace Bilingual.Compiler
 
         public override BilingualObject VisitPowExpr([NotNull] BilingualParser.PowExprContext context)
         {
-            var expressionContexts = context.expression();
-
-            var left = VisitExpression(expressionContexts[0]);
-            var right = VisitExpression(expressionContexts[1]);
+            var left = VisitExpression(context.left);
+            var right = VisitExpression(context.right);
 
             if (VisitorHelpers.CanFold(left, right, out double l, out double r))
             {
@@ -560,9 +553,8 @@ namespace Bilingual.Compiler
                 throw new InvalidOperationException("AddSub has invalid operator" +
                     $" See line {context.Start.Line}, column {context.Start.Column}.");
 
-            var expressionContexts = context.expression();
-            var left = VisitExpression(expressionContexts[0]);
-            var right = VisitExpression(expressionContexts[1]);
+            var left = VisitExpression(context.left);
+            var right = VisitExpression(context.right);
 
             // simplify and fold
             if (VisitorHelpers.CanFold(left, right, out double l, out double r))
@@ -575,10 +567,8 @@ namespace Bilingual.Compiler
 
         public override Expression VisitEqualToExpr([NotNull] BilingualParser.EqualToExprContext context)
         {
-            var expressionContexts = context.expression();
-
-            var left = VisitExpression(expressionContexts[0]);
-            var right = VisitExpression(expressionContexts[1]);
+            var left = VisitExpression(context.left);
+            var right = VisitExpression(context.right);
 
             if (VisitorHelpers.CanFold(left, right, out double l, out double r))
             {
@@ -595,10 +585,8 @@ namespace Bilingual.Compiler
 
         public override Expression VisitNotEqualToExpr([NotNull] BilingualParser.NotEqualToExprContext context)
         {
-            var expressionContexts = context.expression();
-
-            var left = VisitExpression(expressionContexts[0]);
-            var right = VisitExpression(expressionContexts[1]);
+            var left = VisitExpression(context.left);
+            var right = VisitExpression(context.right);
 
             if (VisitorHelpers.CanFold(left, right, out double l, out double r))
             {
