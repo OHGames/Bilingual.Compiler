@@ -2,7 +2,7 @@
   "profiles": {
     "Bilingual.Compiler": {
       "commandName": "Project",
-      "commandLineArgs": "\"%~dp0\\..\\..\\..\\..\\ANTLR\\test.txt\""
+      "commandLineArgs": "compile --input \"%~dp0\\..\\..\\..\\..\\ANTLR\" --output \"%~dp0\\..\\..\\..\\..\\ANTLR\\Compiled\" -c"
     }
   }
 }

@@ -400,5 +400,5 @@ FodyWeavers.xsd
 
 .antlr/
 Java/
-LanguageTestRef.bi
-test.txt
+LanguageTestRef.txt
+test.bi

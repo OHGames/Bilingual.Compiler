@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
+using Bilingual.Compiler.Exceptions;
 using Bilingual.Compiler.Types;
 using Bilingual.Compiler.Types.Containers;
 using Bilingual.Compiler.Types.Expressions;
@@ -83,7 +84,8 @@ namespace Bilingual.Compiler
             }
 
             var success = uint.TryParse(lineId, out uint id);
-            if (!success) throw new Exception("Cannot convert line id to uint.");
+            if (!success) throw new InvalidCastException("Cannot convert line id to uint. " +
+                    $"See line {context.Start.Line}.");
 
             return statement with { LineId = id, TranslationComment = comment };
         }
@@ -190,7 +192,9 @@ namespace Bilingual.Compiler
 
             if (!VisitorHelpers.IsConditionalExpression(expression))
             {
-                throw new Exception("Expressions in while statements must be an expression that may return true/false.");
+                throw new BilingualParsingException("Expressions in while statements must be an expression " +
+                    "that may return true/false. " +
+                    $"See line {context.Start.Line}.");
             }
 
             return new WhileStatement(expression, block);
@@ -206,7 +210,9 @@ namespace Bilingual.Compiler
 
             if (!VisitorHelpers.IsConditionalExpression(expression))
             {
-                throw new Exception("Expressions in do while statements must be an expression that may return true/false.");
+                throw new BilingualParsingException("Expressions in do while statements must be an " +
+                    "expression that may return true/false. " +
+                    $"See line {context.Start.Line}, column {context.Start.Column}.");
             }
 
             return new DoWhileStatement(expression, block);
@@ -224,7 +230,9 @@ namespace Bilingual.Compiler
 
             if (!VisitorHelpers.IsConditionalExpression(expression))
             {
-                throw new Exception("Expressions in if statements must be an expression that may return true/false.");
+                throw new BilingualParsingException("Expressions in if statements must be an expression " +
+                    "that may return true/false. " +
+                    $"See line {context.Start.Line}.");
             }
 
             List<ElseIfStatement> elseIfStatements = [];
@@ -254,7 +262,9 @@ namespace Bilingual.Compiler
 
             if (!VisitorHelpers.IsConditionalExpression(expression))
             {
-                throw new Exception("Expressions in if statements must be an expression that may return true/false.");
+                throw new BilingualParsingException("Expressions in if statements must be an" +
+                    " expression that may return true/false." +
+                    $" See line {context.Start.Line}.");
             }
 
             return new ElseIfStatement(expression, block);
@@ -313,7 +323,8 @@ namespace Bilingual.Compiler
             {
                 "+=" => Operator.PlusEqual,
                 "-=" => Operator.MinusEqual,
-                _ => throw new Exception("Invalid operator for PlusMinusEqualTo.")
+                _ => throw new InvalidOperationException("Invalid operator for PlusMinusEqualTo." +
+                    $" See line {context.Start.Line}.")
             };
 
             var left = VisitMember(memberContext);
@@ -338,7 +349,8 @@ namespace Bilingual.Compiler
             {
                 "*=" => Operator.MulEqual,
                 "/=" => Operator.DivEqual,
-                _ => throw new Exception("Invalid operator for MulDivEqualTo.")
+                _ => throw new InvalidOperationException("Invalid operator for MulDivEqualTo." +
+                    $" See line {context.Start.Line}.")
             };
 
             var left = VisitMember(memberContext);
@@ -356,7 +368,8 @@ namespace Bilingual.Compiler
             {
                 ">" => Operator.GreaterThan,
                 "<" => Operator.LessThan,
-                _ => throw new Exception("Invalid operator for GreaterLessThan.")
+                _ => throw new InvalidOperationException("Invalid operator for GreaterLessThan." +
+                    $" See line {context.Start.Line}.")
             };
 
             var left = VisitExpression(expressionContexts[0]);
@@ -381,7 +394,8 @@ namespace Bilingual.Compiler
             {
                 ">=" => Operator.GreaterThanEqualTo,
                 "<=" => Operator.LessThanEqualTo,
-                _ => throw new Exception("Invalid operator for GreaterThanLessThanEqual.")
+                _ => throw new InvalidOperationException("Invalid operator for GreaterThanLessThanEqual." +
+                    $" See line {context.Start.Line}.")
             };
 
             var left = VisitExpression(expressionContexts[0]);
@@ -416,7 +430,8 @@ namespace Bilingual.Compiler
 
             if (arrayIndexerContext is not null && paramsContexts?.Length != 0)
             {
-                throw new Exception("Either one indexer OR parameter allowed.");
+                throw new BilingualParsingException("Either one indexer OR parameter allowed." +
+                    $" See line {context.Start.Line}.");
             }
 
             var memberName = memberNameContext.GetText();
@@ -505,7 +520,8 @@ namespace Bilingual.Compiler
                 "*" => Operator.Mul,
                 "/" => Operator.Div,
                 "%" => Operator.Mod,
-                _ => throw new Exception("MulDivMod has invalid operator.")
+                _ => throw new InvalidOperationException("MulDivMod has invalid operator." +
+                    $" See line {context.Start.Line}.")
             };
 
             var expressionContexts = context.expression();
@@ -541,7 +557,8 @@ namespace Bilingual.Compiler
             var opr = operatorContext.GetText() == "+" ? Operator.Add : Operator.Sub;
 
             if (operatorContext.GetText() != "+" && operatorContext.GetText() != "-")
-                throw new Exception("AddSub has invalid operator");
+                throw new InvalidOperationException("AddSub has invalid operator" +
+                    $" See line {context.Start.Line}, column {context.Start.Column}.");
 
             var expressionContexts = context.expression();
             var left = VisitExpression(expressionContexts[0]);
@@ -617,7 +634,8 @@ namespace Bilingual.Compiler
             {
                 "true" => new Literal(true),
                 "false" => new Literal(false),
-                _ => throw new Exception("TrueFalse is not 'true' or 'false'.")
+                _ => throw new InvalidOperationException("TrueFalse is not 'true' or 'false'." +
+                    $" See line {context.Start.Line}.")
             };
         }
 
@@ -627,7 +645,9 @@ namespace Bilingual.Compiler
 
             if (!VisitorHelpers.IsConditionalExpression(expression))
             {
-                throw new Exception("Only expressions that return true/false can have the not operator applied.");
+                throw new BilingualParsingException("Only expressions that return true/false can have " +
+                    "the not operator applied." +
+                    $" See line {context.Start.Line}.");
             }
 
             if (expression is Literal literal)
@@ -647,7 +667,9 @@ namespace Bilingual.Compiler
 
             if (!VisitorHelpers.IsMathExpression(expression))
             {
-                throw new Exception("Only math or number related expressions can be negated, no bools.");
+                throw new BilingualParsingException("Only math or number related expressions " +
+                    "can be negated, no bools." +
+                    $" See line {context.Start.Line}.");
             }
 
             if (expression is Literal literal)
@@ -668,7 +690,9 @@ namespace Bilingual.Compiler
 
             if (!VisitorHelpers.IsMathExpression(expression))
             {
-                throw new Exception("Only math or number related expressions can get an absolute value, no bools.");
+                throw new BilingualParsingException("Only math or number related expressions " +
+                    "can get an absolute value, no bools."+
+                    $" See line {context.Start.Line}.");
             }
 
             if (expression is Literal literal)
@@ -689,7 +713,8 @@ namespace Bilingual.Compiler
 
             if (!numberSuccess)
             {
-                throw new Exception("Number is not a valid double.");
+                throw new InvalidCastException($"Number is not a valid double. " +
+                    $"\nSee line {context.Start.Line}.");
             }
 
             return new Literal(numberValue);

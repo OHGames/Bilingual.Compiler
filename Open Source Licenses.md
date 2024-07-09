@@ -8,6 +8,9 @@ Licenses and attribution to code or projects used in the Bilingual Compiler.
 | Handling String Literals which End in an Escaped Quote in ANTLR4 (Answer) | https://stackoverflow.com/a/24559773 | CC BY-SA 3.0 | https://creativecommons.org/licenses/by-sa/3.0/ | Changed grammar to suit my needs (change names, combine rules.) |
 | relative path in BAT script (answer) | https://stackoverflow.com/a/14942944 | CC BY-SA 3.0 | https://creativecommons.org/licenses/by-sa/3.0/ | No significant changes made. Just moved path shortcut for my purposes. |
 | Newtonsoft.Json | https://github.com/JamesNK/Newtonsoft.Json | MIT License |  [License link](https://github.com/JamesNK/Newtonsoft.Json/blob/4738a64817bb753667d9ed0ea99c1f955d414b33/LICENSE.md) | N/A |
+| CommandLineParser | https://github.com/commandlineparser/commandline | MIT License | [License link](https://github.com/commandlineparser/commandline/blob/1e3607b97af6141743edb3c434c06d5b492f6fb3/License.md) | N/A |
+| Newtonsoft.Json.Bson | https://github.com/JamesNK/Newtonsoft.Json.Bson | MIT License | [License link](https://github.com/JamesNK/Newtonsoft.Json.Bson/blob/9709940da46319b7790d31a224c60f6de2beb965/LICENSE.md) | N/A |
+
 
 
 ## License Texts
@@ -66,6 +69,57 @@ Licenses and attribution to code or projects used in the Bilingual Compiler.
     COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
     IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
     CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+**Newtonsoft.Json.Bson**
+
+    The MIT License (MIT)
+
+    Copyright (c) 2017 James Newton-King
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of
+    this software and associated documentation files (the "Software"), to deal in
+    the Software without restriction, including without limitation the rights to
+    use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+    the Software, and to permit persons to whom the Software is furnished to do so,
+    subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+    FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+    COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+    IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+**CommandLineParser**
+
+    The MIT License (MIT)
+
+    Copyright (c) 2005 - 2015 Giacomo Stelluti Scala & Contributors
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+
 
 
 **Stackoverflow Questions/Answers (see table above)**
