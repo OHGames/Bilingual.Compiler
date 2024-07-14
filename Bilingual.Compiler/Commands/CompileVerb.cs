@@ -3,7 +3,7 @@
 namespace Bilingual.Compiler.Commands
 {
     [Verb("compile", HelpText = "Compile bilingual scripts.")]
-    internal class CompileVerb
+    public class CompileVerb
     {
         [Option('p', "pretty", Required = false, Default = false, HelpText = "If the compiled JSON should be pretty-printed." +
             "This option is disregarded if compiled output is in BSON.")]

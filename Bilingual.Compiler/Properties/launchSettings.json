@@ -2,7 +2,11 @@
   "profiles": {
     "Bilingual.Compiler": {
       "commandName": "Project",
-      "commandLineArgs": "compile --input \"%~dp0\\..\\..\\..\\..\\ANTLR\" --output \"%~dp0\\..\\..\\..\\..\\ANTLR\\Compiled\" -c"
+      "commandLineArgs": "localize -i \"%~dp0\\..\\..\\..\\..\\ANTLR\" --locale es_ES --update --zip-path \"%~dp0\\..\\..\\..\\..\\ANTLR\\Localized\\es_ES.zip\""
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
     }
   }
 }

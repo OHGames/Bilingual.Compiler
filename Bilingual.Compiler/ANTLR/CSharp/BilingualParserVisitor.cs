@@ -44,6 +44,12 @@ public interface IBilingualParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitContainer([NotNull] BilingualParser.ContainerContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="BilingualParser.containerName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitContainerName([NotNull] BilingualParser.ContainerNameContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BilingualParser.script"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

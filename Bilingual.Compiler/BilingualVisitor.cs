@@ -33,7 +33,7 @@ namespace Bilingual.Compiler
         public override ScriptContainer VisitContainer([NotNull] BilingualParser.ContainerContext context)
         {
             var scriptContexts = context.script();
-            var memberContext = context.MemberName();
+            var containerNameContext = context.containerName();
 
             List<Script> scripts = [];
             if (scriptContexts is not null && scriptContexts.Length != 0)
@@ -44,7 +44,7 @@ namespace Bilingual.Compiler
                 }
             }
 
-            var name = memberContext.GetText();
+            var name = containerNameContext.GetText();
 
             return new ScriptContainer(name, scripts);
         }
@@ -107,7 +107,7 @@ namespace Bilingual.Compiler
                 emotionString = (string)emotion.Value;
             }
 
-            return new DialogueStatement(member, emotionString, dialogue, null, null);
+            return new DialogueStatement(member, emotionString, dialogue, null, null) { FileLine = context.Start.Line };
         }
 
         public override Literal VisitDialogueEmotion([NotNull] BilingualParser.DialogueEmotionContext context)

@@ -10,7 +10,9 @@ options {
 
 /* =============================== Containers =============================== */
 file: container+ EOF?;
-container: MemberName CurlyOpen script* CurlyClosed;
+container: containerName CurlyOpen script* CurlyClosed;
+containerName: MemberName (Dot MemberName)*;
+
 script: scriptAttributes* MemberName ParenOpen ParenClosed block;
 scriptAttributes: SquareOpen MemberName ParenOpen expression ParenClosed SquareClosed;
 
