@@ -6,6 +6,9 @@ using CsvHelper.TypeConversion;
 
 namespace Bilingual.Compiler.FileGeneration
 {
+    /// <summary>
+    /// Map the statement to a csv file when serializing.
+    /// </summary>
     public class CsvMap : ClassMap<DialogueStatement>
     {
         public CsvMap()

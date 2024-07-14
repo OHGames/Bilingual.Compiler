@@ -3,6 +3,9 @@ using Bilingual.Compiler.Types.Expressions;
 
 namespace Bilingual.Compiler
 {
+    /// <summary>
+    /// Misc helper functions.
+    /// </summary>
     public static class VisitorHelpers
     {
         public static BilingualVisitor Visitor;
@@ -60,6 +63,7 @@ namespace Bilingual.Compiler
             };
         }
 
+        /// <summary>If the expression has the possibility of being a conditional.</summary>
         public static bool IsConditionalExpression(Expression expression)
         {
             if (expression is Literal literal)
@@ -70,7 +74,7 @@ namespace Bilingual.Compiler
             {
                 return oprExpression.Operator.IsConditionalOperator();
             }
-            else if (expression is Variable variable)
+            else if (expression is Variable)
             {
                 // variables have potential to be a bool.
                 return true;
@@ -79,6 +83,7 @@ namespace Bilingual.Compiler
             return false;
         }
 
+        /// <summary>If the condition has the possibility of being a math expression.</summary>
         public static bool IsMathExpression(Expression expression)
         {
             if (expression is Literal literal)
@@ -89,7 +94,7 @@ namespace Bilingual.Compiler
             {
                 return oprExpression.Operator.IsMathOperator();
             }
-            else if (expression is Variable variable)
+            else if (expression is Variable)
             {
                 // variables have potential to be a double.
                 return true;
@@ -98,6 +103,7 @@ namespace Bilingual.Compiler
             return false;
         }
 
+        /// <summary>Get the accessors from a list of accessor contexts.</summary>
         public static List<Accessor> GetAccessors(BilingualParser.AccessorContext[]? accessorContexts)
         {
             if (accessorContexts is null || accessorContexts.Length == 0) 
@@ -111,7 +117,8 @@ namespace Bilingual.Compiler
 
             return accessors;
         }
-
+        
+        /// <summary>Return a <see cref="Params"/> from a list of param contexts.</summary>
         public static Params GetParams(BilingualParser.ParamContext[]? paramContexts)
         {
             if (paramContexts is null || paramContexts.Length == 0)
@@ -126,6 +133,7 @@ namespace Bilingual.Compiler
             return new Params(expressions);
         }
 
+        /// <summary>If the operator is a conditional operator (returns true/false).</summary>
         public static bool IsConditionalOperator(this Operator opr)
         {
             return opr == Operator.EqualTo || opr == Operator.NotEqualTo
@@ -133,6 +141,7 @@ namespace Bilingual.Compiler
                 || opr == Operator.GreaterThan || opr == Operator.LessThan;
         }
 
+        /// <summary>If the operator is a math operator (returns a number).</summary>
         public static bool IsMathOperator(this Operator opr)
         {
             return opr == Operator.Pow || opr == Operator.Mul

@@ -25,7 +25,6 @@ namespace Bilingual.Compiler
                     new CompileFiles().RunCompileVerb(c);
                     break;
                 case LocalizeVerb l:
-                    // TODO: update files.
                     new Localizer(l).RunLocalizeVerb();
                     break;
                 case AddIdsVerb a:

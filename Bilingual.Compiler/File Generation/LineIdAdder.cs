@@ -6,6 +6,9 @@ using static Bilingual.Compiler.Program;
 
 namespace Bilingual.Compiler.FileGeneration
 {
+    /// <summary>
+    /// Find the ids and add them to the files.
+    /// </summary>
     public class LineIdAdder(AddIdsVerb verb)
     {
         public AddIdsVerb verb = verb;
@@ -17,32 +20,9 @@ namespace Bilingual.Compiler.FileGeneration
         public List<BilingualFile> GetIds()
         {
             Log("Looking for existing line ids....");
-
-            List<BilingualFile> parsedFiles = [];
-            var compiler = new CompileFiles();
-
             if (!Directory.Exists(verb.Input)) throw new InvalidOperationException("Input directory does not exist");
 
-            var files = Directory.GetFiles(verb.Input, "*.bi", SearchOption.AllDirectories);
-            // Add all the existing ids to the list beforehand.
-            foreach (var file in files)
-            {
-                var biFile = compiler.ParseFile(file);
-                parsedFiles.Add(biFile);
-                foreach (var container in biFile.Containers)
-                {
-                    foreach (var script in container.Scripts)
-                    {
-                        var statements = script.Block.Statements.Where(s => s is DialogueStatement)
-                            .Cast<DialogueStatement>();
-                        foreach (var statement in statements)
-                        {
-                            if (statement.LineId == null) continue;
-                            LineIdManager.AddId(statement.LineId!.Value, $"{container.Name}.{script.Name}");
-                        }
-                    }
-                }
-            }
+            var parsedFiles = FindExistingFileLines();
 
             foreach (var biFile in parsedFiles)
             {
@@ -61,11 +41,8 @@ namespace Bilingual.Compiler.FileGeneration
                             if (line is not DialogueStatement) continue;
 
                             var dialogue = (DialogueStatement)line;
-                            if (dialogue.LineId != null)
-                            {
-                                //LineIdManager.AddId(dialogue.LineId.Value, scriptPath);
-                                continue;
-                            }
+                            // id already exists and was already found by FindExistingFileLines()
+                            if (dialogue.LineId != null) continue;
 
                             // Get the new id and reassign the line in the parsed files.
                             var nextId = LineIdManager.Generate(scriptPath);
@@ -89,6 +66,36 @@ namespace Bilingual.Compiler.FileGeneration
             return parsedFiles;
         }
 
+        /// <summary>Find all the existing file lines by parsing the files.</summary>
+        /// <returns>The parsed bilingual files.</returns>
+        private List<BilingualFile> FindExistingFileLines()
+        {
+            var compiler = new CompileFiles();
+            var files = Directory.GetFiles(verb.Input, "*.bi", SearchOption.AllDirectories);
+            List<BilingualFile> parsedFiles = [];
+
+            // Add all the existing ids to the list beforehand.
+            foreach (var file in files)
+            {
+                var biFile = compiler.ParseFile(file);
+                parsedFiles.Add(biFile);
+                foreach (var container in biFile.Containers)
+                {
+                    foreach (var script in container.Scripts)
+                    {
+                        var statements = script.Block.Statements.Where(s => s is DialogueStatement)
+                            .Cast<DialogueStatement>();
+                        foreach (var statement in statements)
+                        {
+                            if (statement.LineId == null) continue;
+                            LineIdManager.AddId(statement.LineId!.Value, $"{container.Name}.{script.Name}");
+                        }
+                    }
+                }
+            }
+            return parsedFiles;
+        }
+
         /// <summary>
         /// Update the files.
         /// </summary>
@@ -106,7 +113,7 @@ namespace Bilingual.Compiler.FileGeneration
                 for (int i = 0; i < filesAndLines.Value.Count; i++)
                 {
                     var dialogueLine = filesAndLines.Value[i];
-                    var idText = LineIdManager.Pad(dialogueLine.LineId.Value);
+                    var idText = LineIdManager.Pad(dialogueLine.LineId!.Value);
                     var fileLine = dialogueLine.FileLine;
 
                     // TODO: line them up and make them pretty.
@@ -117,13 +124,15 @@ namespace Bilingual.Compiler.FileGeneration
 
                 File.WriteAllLines(filePath, fileLines);
             }
+            Log("Done adding ids!");
         }
 
+        /// <summary>Add ids and find ids.</summary>
+        /// <returns>Parsed bilingual files.</returns>
         public List<BilingualFile> RunAddIdsVerb()
         {
             var files = GetIds();
             AddLinesToFiles(files);
-
             return files;
         }
 

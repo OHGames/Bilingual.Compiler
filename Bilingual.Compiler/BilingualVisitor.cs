@@ -10,6 +10,10 @@ using Bilingual.Compiler.Types.Statements.ControlFlow;
 
 namespace Bilingual.Compiler
 {
+    /// <summary>
+    /// Use the generated ANTLR parser to visit the files and create C# representations 
+    /// of the syntax tree in memory to be serialized/compiled into JSON.
+    /// </summary>
     public partial class BilingualVisitor : BilingualParserBaseVisitor<BilingualObject>
     {
         public BilingualVisitor()
@@ -765,6 +769,7 @@ namespace Bilingual.Compiler
             return base.Visit(tree);
         }
 
+        /// <summary>Shorthand to visit an expression.</summary>
         public Expression VisitExpression(IParseTree tree)
         {
             return (Expression)Visit(tree);

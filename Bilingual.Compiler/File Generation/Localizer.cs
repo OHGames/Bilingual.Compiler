@@ -1,4 +1,5 @@
 ﻿using Bilingual.Compiler.Commands;
+using Bilingual.Compiler.Exceptions;
 using Bilingual.Compiler.Extensions;
 using Bilingual.Compiler.Types;
 using Bilingual.Compiler.Types.Statements;
@@ -7,6 +8,7 @@ using CsvHelper.Configuration;
 using System.Globalization;
 using System.IO.Compression;
 
+// For Log();
 using static Bilingual.Compiler.Program;
 
 namespace Bilingual.Compiler.FileGeneration
@@ -21,24 +23,42 @@ namespace Bilingual.Compiler.FileGeneration
         /// <exception cref="InvalidOperationException">If the locale is empty.</exception>
         public void RunLocalizeVerb()
         {
-            if (string.IsNullOrEmpty(verb.Locale)) 
-                throw new InvalidOperationException("Must have a locale");
+            if (string.IsNullOrEmpty(verb.Locale))
+            {
+                Log("Must have a locale. Ending localize command.");
+                return;
+            }
 
             // Now every single id is in the LineIdManager as well ad added to files.
             var idAdder = new LineIdAdder(new AddIdsVerb() { Input = verb.Input });
             var files = idAdder.RunAddIdsVerb();
 
-            Log("\n\nGenerating localization file...");
             var temp = GenerateTempDirectory();
             csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture);
 
-            if (verb.Update)
+            try
             {
-                UpdateExistingLocalizationFiles(files, temp);
+                if (verb.Update)
+                {
+                    Log("\n\nUpdating localization file...");
+                    UpdateExistingLocalizationFiles(files, temp);
+                }
+                else
+                {
+                    Log("\n\nGenerating localization file...");
+                    CreateNewLocalizationFiles(temp, files);
+                }
             }
-            else
+            catch (LocalizationException l)
             {
-                CreateNewLocalizationFiles(temp, files);
+                Log($"\n\n{l.Message} Localize command stopped.", fg: ConsoleColor.Red);
+            }
+            catch (Exception e)
+            {
+                Log("\n\n==== FATAL: Exception was thrown! Message and stack trace below. ====", fg: ConsoleColor.Red);
+                Log($"Message: {e.Message} \n{e.StackTrace}", fg: ConsoleColor.Red);
+                Log("==== End stack trace. The application will not move on. " +
+                        "There might be a bug, please report. ====", fg: ConsoleColor.Red);
             }
         }
 
@@ -48,7 +68,7 @@ namespace Bilingual.Compiler.FileGeneration
         private void UpdateExistingLocalizationFiles(List<BilingualFile> files, string temp)
         {
             if (!File.Exists(verb.ZipPath)) 
-                throw new InvalidOperationException("Translation file does not exist.");
+                throw new LocalizationException($"Translation file, {Path.GetFileName(verb.ZipPath)}, does not exist.");
 
             ZipFile.ExtractToDirectory(verb.ZipPath, temp);
             var extractedPath = temp;
@@ -242,7 +262,7 @@ namespace Bilingual.Compiler.FileGeneration
         {
             foreach (var file in files)
             {
-                Log("\tLocalizing ");
+                Log($"\tCreasing csv for {Path.GetFileName(file.FilePath)}");
                 GenerateCsv(file, temp);
             }
 

@@ -13,6 +13,9 @@ namespace Bilingual.Compiler.FileGeneration
 {
     public class CompileFiles
     {
+        /// <summary>
+        /// Start to compile
+        /// </summary>
         public void RunCompileVerb(CompileVerb verb)
         {
             var path = verb.Input;
@@ -22,6 +25,7 @@ namespace Bilingual.Compiler.FileGeneration
             if (files.Length == 0)
             {
                 Log($"No .bi files in '{Path.GetFullPath(path)}'!", fg: ConsoleColor.Yellow);
+                return;
             }
 
             Dictionary<string, string> invalidSyntaxFiles = [];
@@ -61,6 +65,7 @@ namespace Bilingual.Compiler.FileGeneration
             }
         }
 
+        /// <summary>Parse and compile a specific file into JSON.</summary>
         public void CompileFile(string filePath, CompileVerb verb)
         {
             var file = ParseFile(filePath);
@@ -83,6 +88,7 @@ namespace Bilingual.Compiler.FileGeneration
 
         }
 
+        /// <summary>Use ANTLR to parse and visit the file.</summary>
         public BilingualFile ParseFile(string filePath)
         {
             var fileText = File.ReadAllText(filePath);
@@ -97,6 +103,7 @@ namespace Bilingual.Compiler.FileGeneration
             return file;
         }
 
+        /// <summary>Serialize the C# representation of a bilingual file into JSON.</summary>
         public void CompileFileJson(BilingualFile? file, string outputPath, CompileVerb verb)
         {
             var settings = new JsonSerializerSettings()
@@ -110,9 +117,11 @@ namespace Bilingual.Compiler.FileGeneration
             // GetDirectoryName gets rid of file name.
             var directory = Path.GetDirectoryName(outputPath);
             if (!Directory.Exists(directory)) Directory.CreateDirectory(directory!);
+
             File.WriteAllText(outputPath, json);
         }
 
+        /// <summary>Serialize the C# representation of a bilingual file into BSON.</summary>
         public void CompileFileBinary(BilingualFile? file, string outputPath)
         {
             using MemoryStream stream = new MemoryStream();
