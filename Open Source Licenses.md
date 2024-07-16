@@ -12,6 +12,7 @@ Licenses and attribution to code or projects used in the Bilingual Compiler.
 | Newtonsoft.Json.Bson | https://github.com/JamesNK/Newtonsoft.Json.Bson | MIT License | [License link](https://github.com/JamesNK/Newtonsoft.Json.Bson/blob/9709940da46319b7790d31a224c60f6de2beb965/LICENSE.md) | N/A |
 | CsvHelper | https://github.com/JoshClose/CsvHelper | MS-PL | [License Link](https://github.com/JoshClose/CsvHelper/blob/852bd465e0d460eb60013abdc07fff8f68f68a59/LICENSE.txt) | N/A |
 | Find elements added and removed from 2 lists (answer) | https://stackoverflow.com/a/39001823 | CC BY-SA 3.0 | https://creativecommons.org/licenses/by-sa/3.0/ | Altered first code snippet to suit needs. |
+| Examples for handling string interpolation in ANTLR4 | https://github.com/sepp2k/antlr4-string-interpolation-examples | The Unlicense | [License Link](https://github.com/sepp2k/antlr4-string-interpolation-examples/blob/395c67b53158c6cb3f30b951a7807de7ca85871c/LICENSE) | N/A |
 
 ## Helpful Articles
 
@@ -150,6 +151,33 @@ The MS-PL portion of the license is below. The "License" header of the home page
         (E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees, or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.
 
 
+**Examples for handling string interpolation in ANTLR4**
+
+
+    This is free and unencumbered software released into the public domain.
+
+    Anyone is free to copy, modify, publish, use, compile, sell, or
+    distribute this software, either in source code form or as a compiled
+    binary, for any purpose, commercial or non-commercial, and by any
+    means.
+
+    In jurisdictions that recognize copyright laws, the author or authors
+    of this software dedicate any and all copyright interest in the
+    software to the public domain. We make this dedication for the benefit
+    of the public at large and to the detriment of our heirs and
+    successors. We intend this dedication to be an overt act of
+    relinquishment in perpetuity of all present and future rights to this
+    software under copyright law.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+    OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+    ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+    OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information, please refer to <http://unlicense.org>
 
 **Stackoverflow Questions/Answers (see table above)**
 

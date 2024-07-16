@@ -5,8 +5,8 @@
 lexer grammar BilingualLexer;
 
 /* ================================= Symbols ================================ */
-CurlyOpen: '{';
-CurlyClosed: '}';
+CurlyOpen: '{' -> pushMode(DEFAULT_MODE);
+CurlyClosed: '}' -> popMode;
 SquareOpen: '[';
 SquareClosed: ']';
 ParenOpen: '(';
@@ -76,6 +76,7 @@ LineId: Hash Number Number Number Number Number Number Number Number LineIdComme
 LineIdComment: Colon String;
 
 DoubleQuote: '"';
+DollarDouble: '$"' -> pushMode(IN_STRING);
 
 fragment Letter: [A-Za-z_];
 fragment Digit: [0-9];
@@ -87,3 +88,12 @@ Comment: '//' ~[\r\n]* -> skip;
 // https://stackoverflow.com/q/24557953
 // https://stackoverflow.com/a/24559773
 String: DoubleQuote (~["\n\r\\] | '\\' (. | EOF) )*  DoubleQuote;
+
+
+mode IN_STRING;
+
+// https://github.com/sepp2k/antlr4-string-interpolation-examples
+EscapeSequence: '\\' .;
+StringCurly: '{' -> pushMode(DEFAULT_MODE);
+DoubleQuoteInString: '"' -> type(DoubleQuote), popMode;
+Text: (~[{"] | ~[\\] '\\{' )+;

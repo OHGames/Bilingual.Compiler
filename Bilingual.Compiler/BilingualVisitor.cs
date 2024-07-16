@@ -99,11 +99,14 @@ namespace Bilingual.Compiler
         {
             var memberContext = context.MemberName();
             var emotionContext = context.dialogueEmotion();
-            var dialogueContext = context.expression();
+            var stringContext = context.String();
+            var interpContext = context.interpolationString();
 
             var member = memberContext.GetText();
             var emotion = Visit(emotionContext) as Literal;
-            var dialogue = VisitExpression(dialogueContext);
+            var dialogue = stringContext != null 
+                ? new Literal(stringContext.GetText().StripStartingQuotes()) 
+                : VisitExpression(interpContext);
 
             string? emotionString = null;
             if (emotion is not null)
@@ -112,6 +115,30 @@ namespace Bilingual.Compiler
             }
 
             return new DialogueStatement(member, emotionString, dialogue, null, null) { FileLine = context.Start.Line };
+        }
+
+        public override InterpolatedString VisitInterpolationString([NotNull] BilingualParser.InterpolationStringContext context)
+        {
+            var stringContexts = context.stringContents();
+            List<Expression> expressions = [];
+
+            for (int i = 0; i < stringContexts.Length; i++)
+            {
+                expressions.Add(VisitExpression(stringContexts[i]));
+            }
+
+            return new InterpolatedString(expressions);
+        }
+
+        public override Literal VisitTextStringContent([NotNull] BilingualParser.TextStringContentContext context)
+        {
+            return new Literal(context.GetText());
+        }
+
+        public override Expression VisitExpressionStringContent(
+            [NotNull] BilingualParser.ExpressionStringContentContext context)
+        {
+            return VisitExpression(context.expression());
         }
 
         public override Literal VisitDialogueEmotion([NotNull] BilingualParser.DialogueEmotionContext context)
@@ -611,8 +638,7 @@ namespace Bilingual.Compiler
             var stringText = stringContext.GetText();
 
             // remove the " marks
-            stringText = stringText.Remove(0, 1);
-            stringText = stringText.Remove(stringText.Length - 1, 1);
+            stringText = stringText.StripStartingQuotes();
 
             return new Literal(stringText);
         }

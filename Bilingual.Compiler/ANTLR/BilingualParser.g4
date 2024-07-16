@@ -42,6 +42,7 @@ literal
     | ( True | False )                                              #TrueFalseLiteral
     | Number                                                        #NumberLiteral
     | String                                                        #StringLiteral
+    | DollarDouble stringContents* DoubleQuote                      #InterpStringLit
     ;
     
 block: ( statement | CurlyOpen statement* CurlyClosed );
@@ -80,7 +81,7 @@ doWhileStatement: Do block While ParenOpen expression ParenClosed;
 forStatement: For ParenOpen variableDeclaration loopCondition=expression Semicolon alterIndex=expression ParenClosed block;
 forEachStatement: Foreach ParenOpen item=expression In collection=expression ParenClosed block;
 
-dialogueStatement: MemberName dialogueEmotion? Colon expression;
+dialogueStatement: MemberName dialogueEmotion? Colon (String | interpolationString);
 dialogueEmotion: ParenOpen MemberName ParenClosed;
 
 chooseStatement: chooseBlock chooseBlock chooseBlock*;
@@ -112,3 +113,10 @@ incrementsAndDecrements
     | unaryDecrementLeft
     | unaryDecrementRight
     ;
+
+// https://github.com/sepp2k/antlr4-string-interpolation-examples
+stringContents : Text                                               #TextStringContent
+               | StringCurly expression CurlyClosed                 #ExpressionStringContent
+               ;
+
+interpolationString: DollarDouble stringContents* DoubleQuote;

@@ -209,6 +209,13 @@ public interface IBilingualParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStringLiteral([NotNull] BilingualParser.StringLiteralContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>InterpStringLit</c>
+	/// labeled alternative in <see cref="BilingualParser.literal"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInterpStringLit([NotNull] BilingualParser.InterpStringLitContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BilingualParser.block"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -483,4 +490,24 @@ public interface IBilingualParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitIncrementsAndDecrements([NotNull] BilingualParser.IncrementsAndDecrementsContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>TextStringContent</c>
+	/// labeled alternative in <see cref="BilingualParser.stringContents"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitTextStringContent([NotNull] BilingualParser.TextStringContentContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>ExpressionStringContent</c>
+	/// labeled alternative in <see cref="BilingualParser.stringContents"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitExpressionStringContent([NotNull] BilingualParser.ExpressionStringContentContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BilingualParser.interpolationString"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInterpolationString([NotNull] BilingualParser.InterpolationStringContext context);
 }

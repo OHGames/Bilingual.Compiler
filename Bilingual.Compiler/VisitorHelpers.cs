@@ -151,5 +151,12 @@ namespace Bilingual.Compiler
                 || opr == Operator.MulEqual || opr == Operator.DivEqual
                 || opr == Operator.PlusEqual || opr == Operator.MinusEqual;
         }
+
+        /// <summary>The String lexer rule returns double qoutes, get rid of the outer ones.</summary>
+        public static string StripStartingQuotes(this string str)
+        {
+            str = str[1..^1];
+            return str;
+        }
     }
 }
