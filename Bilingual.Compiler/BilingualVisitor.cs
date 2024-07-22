@@ -190,11 +190,11 @@ namespace Bilingual.Compiler
         {
             var blockContext = context.block();
 
-            var itemExpression = VisitExpression(context.item);
+            var itemName = context.item.Text;
             var collectionExpression = VisitExpression(context.collection);
             var block = VisitBlock(blockContext);
 
-            return new ForEachStatement(itemExpression, collectionExpression, block);
+            return new ForEachStatement(itemName, collectionExpression, block);
         }
 
         public override ForStatement VisitForStatement([NotNull] BilingualParser.ForStatementContext context)

@@ -79,7 +79,7 @@ whileStatement: While ParenOpen expression ParenClosed block;
 doWhileStatement: Do block While ParenOpen expression ParenClosed;
 
 forStatement: For ParenOpen variableDeclaration loopCondition=expression Semicolon alterIndex=expression ParenClosed block;
-forEachStatement: Foreach ParenOpen item=expression In collection=expression ParenClosed block;
+forEachStatement: Foreach ParenOpen item=MemberName In collection=expression ParenClosed block;
 
 dialogueStatement: MemberName dialogueEmotion? Colon (String | interpolationString);
 dialogueEmotion: ParenOpen MemberName ParenClosed;

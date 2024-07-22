@@ -2,6 +2,6 @@
 
 namespace Bilingual.Compiler.Types.Statements.ControlFlow
 {
-    public record class ForEachStatement(Expression Item, Expression Collection, Block Block)
+    public record class ForEachStatement(string Item, Expression Collection, Block Block)
         : Statement;
 }

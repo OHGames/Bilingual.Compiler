@@ -2137,7 +2137,7 @@ public partial class BilingualParser : Parser {
 	}
 
 	public partial class ForEachStatementContext : ParserRuleContext {
-		public ExpressionContext item;
+		public IToken item;
 		public ExpressionContext collection;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Foreach() { return GetToken(BilingualParser.Foreach, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ParenOpen() { return GetToken(BilingualParser.ParenOpen, 0); }
@@ -2146,11 +2146,9 @@ public partial class BilingualParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public BlockContext block() {
 			return GetRuleContext<BlockContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
-			return GetRuleContexts<ExpressionContext>();
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
-			return GetRuleContext<ExpressionContext>(i);
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MemberName() { return GetToken(BilingualParser.MemberName, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
 		}
 		public ForEachStatementContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -2177,7 +2175,7 @@ public partial class BilingualParser : Parser {
 			State = 291;
 			Match(ParenOpen);
 			State = 292;
-			_localctx.item = expression(0);
+			_localctx.item = Match(MemberName);
 			State = 293;
 			Match(In);
 			State = 294;
@@ -3474,7 +3472,7 @@ public partial class BilingualParser : Parser {
 		5,5,0,0,278,279,3,10,5,0,279,280,5,6,0,0,280,33,1,0,0,0,281,282,5,37,0,
 		0,282,283,5,5,0,0,283,284,3,18,9,0,284,285,3,10,5,0,285,286,5,7,0,0,286,
 		287,3,10,5,0,287,288,5,6,0,0,288,289,3,14,7,0,289,35,1,0,0,0,290,291,5,
-		38,0,0,291,292,5,5,0,0,292,293,3,10,5,0,293,294,5,45,0,0,294,295,3,10,
+		38,0,0,291,292,5,5,0,0,292,293,5,47,0,0,293,294,5,45,0,0,294,295,3,10,
 		5,0,295,296,5,6,0,0,296,297,3,14,7,0,297,37,1,0,0,0,298,300,5,47,0,0,299,
 		301,3,40,20,0,300,299,1,0,0,0,300,301,1,0,0,0,301,302,1,0,0,0,302,305,
 		5,8,0,0,303,306,5,55,0,0,304,306,3,72,36,0,305,303,1,0,0,0,305,304,1,0,
