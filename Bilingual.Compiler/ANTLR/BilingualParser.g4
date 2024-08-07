@@ -87,7 +87,7 @@ dialogueEmotion: ParenOpen MemberName ParenClosed;
 chooseStatement: chooseBlock chooseBlock chooseBlock*;
 chooseBlock: Choose expression block;
 
-functionCall: ( accessor Dot )* MemberName ParenOpen param* ParenClosed;
+functionCall: Await? ( accessor Dot )* MemberName ParenOpen param* ParenClosed;
 param: expression Comma?;
 
 arrayIndexer: SquareOpen expression SquareClosed;
