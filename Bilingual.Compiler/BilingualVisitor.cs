@@ -37,7 +37,7 @@ namespace Bilingual.Compiler
         public override ScriptContainer VisitContainer([NotNull] BilingualParser.ContainerContext context)
         {
             var scriptContexts = context.script();
-            var containerNameContext = context.containerName();
+            var containerNameContext = context.member();
 
             List<Script> scripts = [];
             if (scriptContexts is not null && scriptContexts.Length != 0)
@@ -247,17 +247,6 @@ namespace Bilingual.Compiler
             return new DoWhileStatement(expression, block);
         }
 
-        public override DoWhileStatement VisitDoWhileStmt([NotNull] BilingualParser.DoWhileStmtContext context)
-        {
-            // https://stackoverflow.com/questions/62760274/antlr4-visitchildren-returns-null-even-when-child-returns-some-object#comment110990006_62760274
-            // When the base function is called, the function returns null
-            // due to the AggregateResult function implemented by ANTLR.
-            // The last child of this rule is a semicolon, which does not get parsed
-            // and returns null. To prevent a null return, explicitly visit the dowhile child.
-            // More info in stackoverflow comment above.
-            return VisitDoWhileStatement(context.doWhileStatement());
-        }
-
         public override IfStatement VisitIfStatement([NotNull] BilingualParser.IfStatementContext context)
         {
             var expressionContext = context.expression();
@@ -448,37 +437,35 @@ namespace Bilingual.Compiler
 
         public override FunctionCallExpression VisitFunctionCall([NotNull] BilingualParser.FunctionCallContext context)
         {
-            var accessorContexts = context.accessor();
-            var memberContext = context.MemberName();
+            var memberContext = context.member();
             var paramsContexts = context.param();
             var isAwaited = context.Await() is not null;
 
-            var accessors = VisitorHelpers.GetAccessors(accessorContexts);
             var memberName = memberContext.GetText();
             var param = VisitorHelpers.GetParams(paramsContexts);
 
-            return new FunctionCallExpression(memberName, accessors, param, isAwaited);
+            return new FunctionCallExpression(memberName, param, isAwaited);
         }
 
-        public override Accessor VisitAccessor([NotNull] BilingualParser.AccessorContext context)
-        {
-            var memberNameContext = context.MemberName();
-            var arrayIndexerContext = context.arrayIndexer();
-            var paramsContexts = context.param();
+        //public override Accessor VisitAccessor([NotNull] BilingualParser.AccessorContext context)
+        //{
+        //    var memberNameContext = context.MemberName();
+        //    var arrayIndexerContext = context.arrayIndexer();
+        //    var paramsContexts = context.param();
 
-            if (arrayIndexerContext is not null && paramsContexts?.Length != 0)
-            {
-                throw new BilingualParsingException("Either one indexer OR parameter allowed." +
-                    $" See line {context.Start.Line}.");
-            }
+        //    if (arrayIndexerContext is not null && paramsContexts?.Length != 0)
+        //    {
+        //        throw new BilingualParsingException("Either one indexer OR parameter allowed." +
+        //            $" See line {context.Start.Line}.");
+        //    }
 
-            var memberName = memberNameContext.GetText();
-            var arrayIndexer = Visit(arrayIndexerContext);
-            var param = VisitorHelpers.GetParams(paramsContexts);
+        //    var memberName = memberNameContext.GetText();
+        //    var arrayIndexer = Visit(arrayIndexerContext);
+        //    var param = VisitorHelpers.GetParams(paramsContexts);
 
-            // 'as' will ensure that no exception is thrown if null
-            return new Accessor(memberName, arrayIndexer as Expression, param);
-        }
+        //    // 'as' will ensure that no exception is thrown if null
+        //    return new Accessor(memberName, arrayIndexer as Expression, param);
+        //}
 
         public override BilingualObject VisitParam([NotNull] BilingualParser.ParamContext context)
         {
@@ -489,6 +476,7 @@ namespace Bilingual.Compiler
         {
             ParserRuleContext baseObjectContext = context.functionCall();
             baseObjectContext ??= context.member();
+            baseObjectContext ??= context.arrayObject();
             var indexerContext = context.arrayIndexer();
 
             var baseObject = Visit(baseObjectContext);
@@ -545,12 +533,10 @@ namespace Bilingual.Compiler
 
         public override Variable VisitMember([NotNull] BilingualParser.MemberContext context)
         {
-            var memberNameContext = context.MemberName();
-            var accessorContexts = context.accessor();
+            var memberNameContexts = context.MemberName();
+            var memberName = VisitorHelpers.GetNameFromMembers(memberNameContexts);
 
-            var memberName = memberNameContext.GetText();
-
-            return new Variable(memberName, VisitorHelpers.GetAccessors(accessorContexts));
+            return new Variable(memberName);
         }
 
         public override BilingualObject VisitParenthesesExpression(
@@ -807,6 +793,16 @@ namespace Bilingual.Compiler
             return new Script(name, block, attributes);
         }
 
+        public override RunStatement VisitRunStatement([NotNull] BilingualParser.RunStatementContext context)
+        {
+            return new RunStatement(context.member().GetText());
+        }
+
+        public override InjectStatement VisitInjectStatement([NotNull] BilingualParser.InjectStatementContext context)
+        {
+            return new InjectStatement(context.member().GetText());
+        }
+
         /// <summary>
         /// If a parse context is null, return null dont visit.
         /// </summary>
@@ -820,6 +816,41 @@ namespace Bilingual.Compiler
         public Expression VisitExpression(IParseTree tree)
         {
             return (Expression)Visit(tree);
+        }
+
+
+
+        public override DoWhileStatement VisitDoWhileStmt([NotNull] BilingualParser.DoWhileStmtContext context)
+        {
+            // https://stackoverflow.com/questions/62760274/antlr4-visitchildren-returns-null-even-when-child-returns-some-object#comment110990006_62760274
+            // When the base function is called, the function returns null
+            // due to the AggregateResult function implemented by ANTLR.
+            // The last child of this rule is a semicolon, which does not get parsed
+            // and returns null. To prevent a null return, explicitly visit the dowhile child.
+            // More info in stackoverflow comment above.
+            // The functions below are doing the same thing as this.
+            return VisitDoWhileStatement(context.doWhileStatement());
+        }
+
+        public override InjectStatement VisitInjectStmt([NotNull] BilingualParser.InjectStmtContext context)
+        {
+            return VisitInjectStatement(context.injectStatement());
+        }
+
+        public override RunStatement VisitRunStmt([NotNull] BilingualParser.RunStmtContext context)
+        {
+            return VisitRunStatement(context.runStatement());
+        }
+
+        public override VariableDeclaration VisitVariableDeclarationStmt(
+            [NotNull] BilingualParser.VariableDeclarationStmtContext context)
+        {
+            return VisitVariableDeclaration(context.variableDeclaration());
+        }
+
+        public override BilingualObject VisitMemberAssignmentStmt([NotNull] BilingualParser.MemberAssignmentStmtContext context)
+        {
+            return VisitMemberAssignment(context.memberAssignment());
         }
     }
 }

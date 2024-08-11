@@ -1,4 +1,5 @@
-﻿using Bilingual.Compiler.Types;
+﻿using Antlr4.Runtime.Tree;
+using Bilingual.Compiler.Types;
 using Bilingual.Compiler.Types.Expressions;
 
 namespace Bilingual.Compiler
@@ -103,21 +104,24 @@ namespace Bilingual.Compiler
             return false;
         }
 
-        /// <summary>Get the accessors from a list of accessor contexts.</summary>
-        public static List<Accessor> GetAccessors(BilingualParser.AccessorContext[]? accessorContexts)
+        /// <summary>Get the name from the list of members.</summary>
+        /// <param name="members">The member contexts</param>
+        /// <returns>A string</returns>
+        public static string GetNameFromMembers(ITerminalNode[]? members)
         {
-            if (accessorContexts is null || accessorContexts.Length == 0) 
-                return [];
+            if (members is null || members.Length == 0) return "";
+            if (members.Length == 1) return members[0].GetText();
 
-            List<Accessor> accessors = [];
-            for (int i = 0; i < accessorContexts.Length; i++)
+            string str = "";
+            foreach (var member in members)
             {
-                accessors.Add((Accessor)Visitor.Visit(accessorContexts[i]));
+                str += member.GetText() + ".";
             }
 
-            return accessors;
+            // get rid of the last period
+            return str[..^1];
         }
-        
+
         /// <summary>Return a <see cref="Params"/> from a list of param contexts.</summary>
         public static Params GetParams(BilingualParser.ParamContext[]? paramContexts)
         {

@@ -44,12 +44,6 @@ public interface IBilingualParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitContainer([NotNull] BilingualParser.ContainerContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="BilingualParser.containerName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitContainerName([NotNull] BilingualParser.ContainerNameContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="BilingualParser.script"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -264,6 +258,20 @@ public interface IBilingualParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitPlusMinusMulDivStmt([NotNull] BilingualParser.PlusMinusMulDivStmtContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>RunStmt</c>
+	/// labeled alternative in <see cref="BilingualParser.statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRunStmt([NotNull] BilingualParser.RunStmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>InjectStmt</c>
+	/// labeled alternative in <see cref="BilingualParser.statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInjectStmt([NotNull] BilingualParser.InjectStmtContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>ContinueStmt</c>
 	/// labeled alternative in <see cref="BilingualParser.statement"/>.
 	/// </summary>
@@ -435,17 +443,23 @@ public interface IBilingualParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitArrayObject([NotNull] BilingualParser.ArrayObjectContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="BilingualParser.accessor"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitAccessor([NotNull] BilingualParser.AccessorContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="BilingualParser.arrayAccess"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitArrayAccess([NotNull] BilingualParser.ArrayAccessContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BilingualParser.runStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRunStatement([NotNull] BilingualParser.RunStatementContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BilingualParser.injectStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInjectStatement([NotNull] BilingualParser.InjectStatementContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="BilingualParser.unaryIncrementLeft"/>.
 	/// </summary>

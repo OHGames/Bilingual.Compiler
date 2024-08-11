@@ -10,8 +10,7 @@ options {
 
 /* =============================== Containers =============================== */
 file: container+ EOF?;
-container: containerName CurlyOpen script* CurlyClosed;
-containerName: MemberName (Dot MemberName)*;
+container: member CurlyOpen script* CurlyClosed;
 
 script: scriptAttributes* MemberName ParenOpen ParenClosed block;
 scriptAttributes: SquareOpen MemberName ParenOpen expression ParenClosed SquareClosed;
@@ -54,6 +53,8 @@ statement
     | functionCall Semicolon                                        #FunctionCallStmt
     | incrementsAndDecrements Semicolon                             #IncrementDecrementStmt
     | plusMinusMulDivEqual Semicolon                                #PlusMinusMulDivStmt
+    | runStatement Semicolon                                        #RunStmt
+    | injectStatement Semicolon                                     #InjectStmt
     | Continue Semicolon                                            #ContinueStmt
     | Break Semicolon                                               #BreakStmt
     | Return Semicolon                                              #ReturnStmt
@@ -69,7 +70,7 @@ statement
 /* ============================= Statement Rules ============================ */
 variableDeclaration: Global? Var MemberName Equal expression Semicolon;
 memberAssignment: member Equal expression;
-member: ( accessor Dot )* MemberName;
+member: ( MemberName Dot )* MemberName;
 
 ifStatement: If ParenOpen expression ParenClosed block ifElseStatement* elseStatement?;
 ifElseStatement: ElseIf ParenOpen expression ParenClosed block;
@@ -87,15 +88,18 @@ dialogueEmotion: ParenOpen MemberName ParenClosed;
 chooseStatement: chooseBlock chooseBlock chooseBlock*;
 chooseBlock: Choose expression block;
 
-functionCall: Await? ( accessor Dot )* MemberName ParenOpen param* ParenClosed;
+functionCall: Await? member ParenOpen param* ParenClosed;
 param: expression Comma?;
 
 arrayIndexer: SquareOpen expression SquareClosed;
 
 arrayObject: SquareOpen ( expression Comma )* expression? SquareClosed;
-accessor: MemberName ( ParenOpen param* ParenClosed )? arrayIndexer?;
+//accessor: MemberName ( ParenOpen param* ParenClosed )? arrayIndexer?;
 
-arrayAccess: ( functionCall | member ) arrayIndexer;
+arrayAccess: ( functionCall | member | arrayObject ) arrayIndexer;
+
+runStatement: Run member;
+injectStatement: Inject member;
 
 unaryIncrementLeft: Add Add member;
 unaryIncrementRight: member Add Add;

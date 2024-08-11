@@ -66,6 +66,9 @@ In: 'in';
 
 Choose: 'choose';
 
+Run: 'run';
+Inject: 'inject';
+
 /* ========================= Literals and Fragments ========================= */
 
 MemberName: Letter (Digit | Letter)*;
