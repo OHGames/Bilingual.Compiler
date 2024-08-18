@@ -474,13 +474,32 @@ namespace Bilingual.Compiler
 
         public override ArrayAccess VisitArrayAccess([NotNull] BilingualParser.ArrayAccessContext context)
         {
-            ParserRuleContext baseObjectContext = context.functionCall();
-            baseObjectContext ??= context.member();
-            baseObjectContext ??= context.arrayObject();
+            IParseTree baseObjectContext = context.String();
             var indexerContext = context.arrayIndexer();
 
-            var baseObject = Visit(baseObjectContext);
+            BilingualObject baseObject;
+            if (baseObjectContext is not null)
+            {
+                // return text without quotes.
+                baseObject = new Literal(baseObjectContext.GetText()[1..^1]);
+            }
+            else
+            {
+                baseObjectContext ??= context.member();
+                baseObjectContext ??= context.arrayObject();
+                baseObject = Visit(baseObjectContext);
+            }
+
             var indexer = VisitExpression(indexerContext);
+            if (indexer is Literal lit)
+            {
+                if ((double)lit.Value < 0)
+                    throw new BilingualParsingException("Indexer values cannot be below zero");
+                else if ((double)lit.Value != (int)((double)lit.Value))
+                    // casting to an int truncates, so if the int and double value dont match,
+                    // it means the indexer is not a whole number.
+                    throw new BilingualParsingException("Indexer values cannot be a decimal");
+            }
 
             return new ArrayAccess(baseObject, indexer);
         }
@@ -848,9 +867,74 @@ namespace Bilingual.Compiler
             return VisitVariableDeclaration(context.variableDeclaration());
         }
 
-        public override BilingualObject VisitMemberAssignmentStmt([NotNull] BilingualParser.MemberAssignmentStmtContext context)
+        public override VariableAssignment VisitMemberAssignmentStmt([NotNull] BilingualParser.MemberAssignmentStmtContext context)
         {
             return VisitMemberAssignment(context.memberAssignment());
+        }
+
+        public override ArrayAccess VisitArrayAccessExpression([NotNull] BilingualParser.ArrayAccessExpressionContext context)
+        {
+            return VisitArrayAccess(context.arrayAccess());
+        }
+
+        public override WhileStatement VisitWhileStmt([NotNull] BilingualParser.WhileStmtContext context)
+        {
+            return VisitWhileStatement(context.whileStatement());
+        }
+
+        public override Literal VisitArrayLiteral([NotNull] BilingualParser.ArrayLiteralContext context)
+        {
+            return VisitArrayObject(context.arrayObject());
+        }
+
+        public override ChooseStatement VisitChooseStmt([NotNull] BilingualParser.ChooseStmtContext context)
+        {
+            return VisitChooseStatement(context.chooseStatement());
+        }
+
+        public override ForEachStatement VisitForEachStmt([NotNull] BilingualParser.ForEachStmtContext context)
+        {
+            return VisitForEachStatement(context.forEachStatement());
+        }
+
+        public override ForStatement VisitForStmt([NotNull] BilingualParser.ForStmtContext context)
+        {
+            return VisitForStatement(context.forStatement());
+        }
+
+        public override FunctionCallExpression VisitFunctionCallExpr([NotNull] BilingualParser.FunctionCallExprContext context)
+        {
+            return VisitFunctionCall(context.functionCall());
+        }
+
+        public override OprExpression VisitPlusMinusMulDivEqualExpression([NotNull] BilingualParser.PlusMinusMulDivEqualExpressionContext context)
+        {
+            return (OprExpression)Visit(context.plusMinusMulDivEqual());
+        }
+
+        public override IfStatement VisitIfStmt([NotNull] BilingualParser.IfStmtContext context)
+        {
+            return VisitIfStatement(context.ifStatement());
+        }
+
+        public override OprExpression VisitIncrementAndDecrementExpr([NotNull] BilingualParser.IncrementAndDecrementExprContext context)
+        {
+            return (OprExpression)Visit(context.incrementsAndDecrements());
+        }
+
+        public override OprExpression VisitIncrementsAndDecrements([NotNull] BilingualParser.IncrementsAndDecrementsContext context)
+        {
+            return (OprExpression)base.VisitIncrementsAndDecrements(context);
+        }
+
+        public override BilingualObject VisitMemberExpression([NotNull] BilingualParser.MemberExpressionContext context)
+        {
+            return VisitMember(context.member());
+        }
+
+        public override BilingualObject VisitLiteralExpr([NotNull] BilingualParser.LiteralExprContext context)
+        {
+            return base.VisitLiteralExpr(context);
         }
     }
 }

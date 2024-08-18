@@ -203,13 +203,6 @@ public interface IBilingualParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStringLiteral([NotNull] BilingualParser.StringLiteralContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>InterpStringLit</c>
-	/// labeled alternative in <see cref="BilingualParser.literal"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitInterpStringLit([NotNull] BilingualParser.InterpStringLitContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="BilingualParser.block"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

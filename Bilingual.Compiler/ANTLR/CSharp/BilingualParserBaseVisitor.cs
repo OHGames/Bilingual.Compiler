@@ -306,17 +306,6 @@ public partial class BilingualParserBaseVisitor<Result> : AbstractParseTreeVisit
 	/// <return>The visitor result.</return>
 	public virtual Result VisitStringLiteral([NotNull] BilingualParser.StringLiteralContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>InterpStringLit</c>
-	/// labeled alternative in <see cref="BilingualParser.literal"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitInterpStringLit([NotNull] BilingualParser.InterpStringLitContext context) { return VisitChildren(context); }
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="BilingualParser.block"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>

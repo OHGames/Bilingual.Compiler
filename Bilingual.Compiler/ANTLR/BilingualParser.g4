@@ -41,7 +41,6 @@ literal
     | ( True | False )                                              #TrueFalseLiteral
     | Number                                                        #NumberLiteral
     | String                                                        #StringLiteral
-    | DollarDouble stringContents* DoubleQuote                      #InterpStringLit
     ;
     
 block: ( statement | CurlyOpen statement* CurlyClosed );
@@ -96,7 +95,7 @@ arrayIndexer: SquareOpen expression SquareClosed;
 arrayObject: SquareOpen ( expression Comma )* expression? SquareClosed;
 //accessor: MemberName ( ParenOpen param* ParenClosed )? arrayIndexer?;
 
-arrayAccess: ( functionCall | member | arrayObject ) arrayIndexer;
+arrayAccess: ( String | member | arrayObject ) arrayIndexer;
 
 runStatement: Run member;
 injectStatement: Inject member;
