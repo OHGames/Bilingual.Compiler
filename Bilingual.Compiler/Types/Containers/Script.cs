@@ -1,8 +1,10 @@
 ﻿using Bilingual.Compiler.Types.Statements;
+using Newtonsoft.Json;
 using System.Collections;
 
 namespace Bilingual.Compiler.Types.Containers
 {
+    [JsonObject]
     public record class Script(string Name, Block Block, List<ScriptAttribute> Attributes)
         : BilingualObject, IEnumerable<Statement>
     {
@@ -12,6 +14,7 @@ namespace Bilingual.Compiler.Types.Containers
             set => Block.Statements[i] = value;
         }
 
+        [JsonIgnore]
         public int StatementCount => Block.Statements.Count;
 
         public IEnumerator<Statement> GetEnumerator()
