@@ -3,5 +3,5 @@
 namespace Bilingual.Compiler.Types.Statements.ControlFlow
 {
     public record class ForEachStatement(string Item, Expression Collection, Block Block)
-        : Statement;
+        : BlockedStatement(Block);
 }

@@ -2,5 +2,5 @@
 
 namespace Bilingual.Compiler.Types.Statements.ControlFlow
 {
-    public record class WhileStatement(Expression Expression, Block Block) : Statement;
+    public record class WhileStatement(Expression Expression, Block Block) : BlockedStatement(Block);
 }

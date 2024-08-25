@@ -122,8 +122,7 @@ namespace Bilingual.Compiler.FileGeneration
                         var script = container.Scripts[k];
                         var csvPath = Path.Combine(extractedPath, container.Name.Replace('.', '/'), script.Name + ".csv");
                         var csvLines = File.ReadAllLines(csvPath);
-                        var dialogueStatements = script.Block.Statements.Where(s => s is DialogueStatement)
-                            .Cast<DialogueStatement>();
+                        var dialogueStatements = LineIdAdder.FindDialogueLines(script.Block.Statements);
                         var newLines = new List<string>(csvLines);
                         bool fileAltered = false;
 
@@ -227,8 +226,7 @@ namespace Bilingual.Compiler.FileGeneration
                     {
                         var script = container.Scripts[k];
                         // get only the lines added.
-                        var dialogueLines = script.Block.Statements
-                            .Where(s => s is DialogueStatement).Cast<DialogueStatement>()
+                        var dialogueLines = LineIdAdder.FindDialogueLines(script.Block.Statements)
                             .Where(d => added.Contains(d.LineId!.Value)).ToList();
 
                         if (dialogueLines.Count == 0) continue;
@@ -341,7 +339,8 @@ namespace Bilingual.Compiler.FileGeneration
             {
                 foreach (var script in container.Scripts)
                 {
-                    if (!script.Block.Statements.Where(s => s is DialogueStatement).Any())
+                    var dialogueLines = LineIdAdder.FindDialogueLines(script.Block.Statements);
+                    if (dialogueLines.Count == 0)
                         continue;
 
                     // Containers act like C# namespaces so seperate each part into its own directory.
@@ -360,9 +359,9 @@ namespace Bilingual.Compiler.FileGeneration
                     csv.WriteHeader<DialogueStatement>();
                     csv.NextRecord();
 
-                    foreach (var dialogue in script.Block.Statements.Where(s => s is DialogueStatement))
+                    foreach (var dialogue in dialogueLines)
                     {
-                        csv.WriteRecord((DialogueStatement)dialogue);
+                        csv.WriteRecord(dialogue);
                         csv.NextRecord();
                     }
 

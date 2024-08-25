@@ -1,10 +1,8 @@
-﻿using Bilingual.Compiler.Types.Statements;
-using System.Collections;
+﻿using System.Collections;
 
-namespace Bilingual.Compiler.Types.Containers
+namespace Bilingual.Compiler.Types.Statements.ControlFlow
 {
-    public record class Script(string Name, Block Block, List<ScriptAttribute> Attributes)
-        : BilingualObject, IEnumerable<Statement>
+    public record class BlockedStatement(Block Block) : Statement, IEnumerable<Statement>
     {
         public Statement this[int i]
         {

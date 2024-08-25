@@ -3,5 +3,5 @@
 namespace Bilingual.Compiler.Types.Statements.ControlFlow
 {
     public record ForStatement(VariableDeclaration VariableDeclaration, Expression LoopCondition, 
-        Expression AlterIndex, Block Block) : Statement;
+        Expression AlterIndex, Block Block) : BlockedStatement(Block);
 }
