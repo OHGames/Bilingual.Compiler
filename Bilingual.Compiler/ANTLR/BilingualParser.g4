@@ -120,6 +120,10 @@ incrementsAndDecrements
 // https://github.com/sepp2k/antlr4-string-interpolation-examples
 stringContents : Text                                               #TextStringContent
                | StringCurly expression CurlyClosed                 #ExpressionStringContent
+               | StringCurly pluralizedQuantity CurlyClosed         #PluralizedStringContent
                ;
 
 interpolationString: DollarDouble stringContents* DoubleQuote;
+
+pluralizedQuantity: Plural ParenOpen expression Comma pluralCountParam (Comma pluralCountParam)*? ParenClosed;
+pluralCountParam: (Zero | One | Two | Other | Few | Many) Equal String;

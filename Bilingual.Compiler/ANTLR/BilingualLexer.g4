@@ -69,6 +69,14 @@ Choose: 'choose';
 Run: 'run';
 Inject: 'inject';
 
+Zero: 'zero';
+One: 'one';
+Two: 'two';
+Other: 'other';
+Few: 'few';
+Many: 'many';
+Plural: 'Plural' | 'Pl';
+
 /* ========================= Literals and Fragments ========================= */
 
 MemberName: Letter (Digit | Letter)*;

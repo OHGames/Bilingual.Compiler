@@ -1,4 +1,5 @@
-﻿using Bilingual.Compiler.Types.Expressions;
+﻿using Bilingual.Compiler.Types;
+using Bilingual.Compiler.Types.Expressions;
 using Bilingual.Compiler.Types.Statements;
 using CsvHelper;
 using CsvHelper.Configuration;
@@ -57,6 +58,19 @@ namespace Bilingual.Compiler.FileGeneration
                     if (expr is Literal lit)
                     {
                         str += lit.Value.ToString();
+                    }
+                    else if (expr is LocalizedQuanity quanity)
+                    {
+                        str += $"={{{i} ";
+                        foreach (var plural in quanity.Plurals)
+                        {
+                            str += $"{plural.Key.ToString().ToLower()}='{plural.Value}', ";
+                        }
+
+                        // Get rid of the last space and comma.
+                        str = str[..^2];
+                        str += "}=";
+                        return str;
                     }
                     else
                     {

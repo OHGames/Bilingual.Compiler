@@ -512,9 +512,28 @@ public interface IBilingualParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitExpressionStringContent([NotNull] BilingualParser.ExpressionStringContentContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>PluralizedStringContent</c>
+	/// labeled alternative in <see cref="BilingualParser.stringContents"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPluralizedStringContent([NotNull] BilingualParser.PluralizedStringContentContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="BilingualParser.interpolationString"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitInterpolationString([NotNull] BilingualParser.InterpolationStringContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BilingualParser.pluralizedQuantity"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPluralizedQuantity([NotNull] BilingualParser.PluralizedQuantityContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BilingualParser.pluralCountParam"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPluralCountParam([NotNull] BilingualParser.PluralCountParamContext context);
 }

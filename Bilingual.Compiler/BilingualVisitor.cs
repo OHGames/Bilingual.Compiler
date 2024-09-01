@@ -7,6 +7,7 @@ using Bilingual.Compiler.Types.Containers;
 using Bilingual.Compiler.Types.Expressions;
 using Bilingual.Compiler.Types.Statements;
 using Bilingual.Compiler.Types.Statements.ControlFlow;
+using ReswPlusLib;
 
 namespace Bilingual.Compiler
 {
@@ -822,6 +823,39 @@ namespace Bilingual.Compiler
             return new InjectStatement(context.member().GetText());
         }
 
+        public override LocalizedQuanity VisitPluralizedQuantity([NotNull] BilingualParser.PluralizedQuantityContext context)
+        {
+            var valueContext = context.expression();
+            var paramContexts = context.pluralCountParam();
+
+            var value = VisitExpression(valueContext);
+            Dictionary<PluralTypeEnum, string> plurals = [];
+            foreach (var param in paramContexts)
+            {
+                var lit = VisitPluralCountParam(param);
+                (PluralTypeEnum pluralType, string str) = ((PluralTypeEnum pluralType, string str))lit.Value;
+                if (!plurals.TryAdd(pluralType, str))
+                {
+                    throw new BilingualParsingException("You can only have one or none of each plural string.");
+                }
+            }
+            return new LocalizedQuanity(value, plurals);
+        }
+
+        public override Literal VisitPluralCountParam([NotNull] BilingualParser.PluralCountParamContext context)
+        {
+            var quanitityContext = context.Zero() ?? context.One() ?? context.Two() ?? context.Other() ?? 
+                context.Few() ?? context.Many();
+            // remove qoutes
+            var str = context.String().GetText()[1..^1];
+
+            var quanityText = quanitityContext.GetText();
+            PluralTypeEnum pluralType = (PluralTypeEnum)Enum.Parse(typeof(PluralTypeEnum), quanityText, true);
+
+            // A quick hack to return a value that isnt a BilingualObject.
+            return new Literal((quantity: pluralType, text: str));
+        }
+
         /// <summary>
         /// If a parse context is null, return null dont visit.
         /// </summary>
@@ -935,6 +969,11 @@ namespace Bilingual.Compiler
         public override BilingualObject VisitLiteralExpr([NotNull] BilingualParser.LiteralExprContext context)
         {
             return base.VisitLiteralExpr(context);
+        }
+
+        public override LocalizedQuanity VisitPluralizedStringContent([NotNull] BilingualParser.PluralizedStringContentContext context)
+        {
+            return VisitPluralizedQuantity(context.pluralizedQuantity());
         }
     }
 }
