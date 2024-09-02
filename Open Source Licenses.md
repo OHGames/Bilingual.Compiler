@@ -13,7 +13,7 @@ Licenses and attribution to code or projects used in the Bilingual Compiler.
 | CsvHelper | https://github.com/JoshClose/CsvHelper | MS-PL | [License Link](https://github.com/JoshClose/CsvHelper/blob/852bd465e0d460eb60013abdc07fff8f68f68a59/LICENSE.txt) | N/A |
 | Find elements added and removed from 2 lists (answer) | https://stackoverflow.com/a/39001823 | CC BY-SA 3.0 | https://creativecommons.org/licenses/by-sa/3.0/ | Altered first code snippet to suit needs. |
 | Examples for handling string interpolation in ANTLR4 | https://github.com/sepp2k/antlr4-string-interpolation-examples | The Unlicense | [License Link](https://github.com/sepp2k/antlr4-string-interpolation-examples/blob/395c67b53158c6cb3f30b951a7807de7ca85871c/LICENSE) | N/A |
-| ReswPlus (ReswPlus.Shared) | https://github.com/DotNetPlus/ReswPlus | MIT License | [License Link](https://github.com/DotNetPlus/ReswPlus/blob/5704cea060de5a5f5287d96d2b12f39c384147e3/LICENSE) | N/A | 
+| Yarn Spinner | https://github.com/YarnSpinnerTool/YarnSpinner | MIT License | [License Link](https://github.com/YarnSpinnerTool/YarnSpinner/blob/1602bab152edb27a19c5d26d25728dc8c442353f/LICENSE.md) | N/A | 
 
 ## Helpful Articles
 
@@ -543,12 +543,12 @@ The MS-PL portion of the license is below. The "License" header of the home page
         Creative Commons may be contacted at https://creativecommons.org/.
 
 
-**ReswPlus**
+**Yarn Spinner**
 
 
-    MIT License
+    The MIT License (MIT)
 
-    Copyright (c) 2019 Rudy Huyn
+    Copyright (c) Yarn Spinner Pty. Ltd., Secret Lab Pty. Ltd., and Yarn Spinner contributors.
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

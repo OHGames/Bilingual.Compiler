@@ -76,6 +76,7 @@ Other: 'other';
 Few: 'few';
 Many: 'many';
 Plural: 'Plural' | 'Pl';
+Ordinal: 'Ordinal' | 'Ord';
 
 /* ========================= Literals and Fragments ========================= */
 

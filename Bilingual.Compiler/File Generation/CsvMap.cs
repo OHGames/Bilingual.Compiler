@@ -62,6 +62,7 @@ namespace Bilingual.Compiler.FileGeneration
                     else if (expr is LocalizedQuanity quanity)
                     {
                         str += $"={{{i} ";
+                        str += quanity.Cardinal ? "pl " : "ord ";
                         foreach (var plural in quanity.Plurals)
                         {
                             str += $"{plural.Key.ToString().ToLower()}='{plural.Value}', ";

@@ -125,5 +125,5 @@ stringContents : Text                                               #TextStringC
 
 interpolationString: DollarDouble stringContents* DoubleQuote;
 
-pluralizedQuantity: Plural ParenOpen expression Comma pluralCountParam (Comma pluralCountParam)*? ParenClosed;
+pluralizedQuantity: (Plural|Ordinal) ParenOpen expression Comma pluralCountParam (Comma pluralCountParam)*? ParenClosed;
 pluralCountParam: (Zero | One | Two | Other | Few | Many) Equal String;

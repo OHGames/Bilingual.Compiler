@@ -1,5 +1,4 @@
-﻿using Antlr4.Runtime;
-using Antlr4.Runtime.Misc;
+﻿using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using Bilingual.Compiler.Exceptions;
 using Bilingual.Compiler.Types;
@@ -7,7 +6,6 @@ using Bilingual.Compiler.Types.Containers;
 using Bilingual.Compiler.Types.Expressions;
 using Bilingual.Compiler.Types.Statements;
 using Bilingual.Compiler.Types.Statements.ControlFlow;
-using ReswPlusLib;
 
 namespace Bilingual.Compiler
 {
@@ -827,19 +825,20 @@ namespace Bilingual.Compiler
         {
             var valueContext = context.expression();
             var paramContexts = context.pluralCountParam();
+            var isCardinal = context.Plural() is not null;
 
             var value = VisitExpression(valueContext);
-            Dictionary<PluralTypeEnum, string> plurals = [];
+            Dictionary<PluralCase, string> plurals = [];
             foreach (var param in paramContexts)
             {
                 var lit = VisitPluralCountParam(param);
-                (PluralTypeEnum pluralType, string str) = ((PluralTypeEnum pluralType, string str))lit.Value;
+                (PluralCase pluralType, string str) = ((PluralCase pluralType, string str))lit.Value;
                 if (!plurals.TryAdd(pluralType, str))
                 {
                     throw new BilingualParsingException("You can only have one or none of each plural string.");
                 }
             }
-            return new LocalizedQuanity(value, plurals);
+            return new LocalizedQuanity(value, plurals, isCardinal);
         }
 
         public override Literal VisitPluralCountParam([NotNull] BilingualParser.PluralCountParamContext context)
@@ -850,7 +849,7 @@ namespace Bilingual.Compiler
             var str = context.String().GetText()[1..^1];
 
             var quanityText = quanitityContext.GetText();
-            PluralTypeEnum pluralType = (PluralTypeEnum)Enum.Parse(typeof(PluralTypeEnum), quanityText, true);
+            PluralCase pluralType = (PluralCase)Enum.Parse(typeof(PluralCase), quanityText, true);
 
             // A quick hack to return a value that isnt a BilingualObject.
             return new Literal((quantity: pluralType, text: str));
