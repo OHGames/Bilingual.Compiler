@@ -117,13 +117,15 @@ incrementsAndDecrements
     | unaryDecrementRight
     ;
 
-// https://github.com/sepp2k/antlr4-string-interpolation-examples
-stringContents : Text                                               #TextStringContent
-               | StringCurly expression CurlyClosed                 #ExpressionStringContent
-               | StringCurly pluralizedQuantity CurlyClosed         #PluralizedStringContent
+// https://stackoverflow.com/a/69747874
+stringContents : lotsOfGraphemes                                      #StringContentGraphemes      
+               | CurlyOpen expression CurlyClosed                     #StringContentExpr
+               | CurlyOpen pluralizedQuantity CurlyClosed             #StringContentPluralized
                ;
+lotsOfGraphemes: Grapheme+;
 
-interpolationString: DollarDouble stringContents* DoubleQuote;
+// https://github.com/sepp2k/antlr4-string-interpolation-examples
+interpolationString: DollarDouble stringContents*? DoubleQuote;
 
 pluralizedQuantity: (Plural|Ordinal) ParenOpen expression Comma pluralCountParam (Comma pluralCountParam)*? ParenClosed;
 pluralCountParam: (Zero | One | Two | Other | Few | Many) Equal String;

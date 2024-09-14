@@ -102,10 +102,14 @@ Comment: '//' ~[\r\n]* -> skip;
 String: DoubleQuote (~["\n\r\\] | '\\' (. | EOF) )*  DoubleQuote;
 
 
+/* =============================== String Mode ============================== */
+
 mode IN_STRING;
 
-// https://github.com/sepp2k/antlr4-string-interpolation-examples
-EscapeSequence: '\\' .;
-StringCurly: '{' -> pushMode(DEFAULT_MODE);
-DoubleQuoteInString: '"' -> type(DoubleQuote), popMode;
-Text: (~[{"] | ~[\\] '\\{' )+;
+// https://stackoverflow.com/a/69747874
+EscapedLeftBrace: '\\{' -> type(Grapheme);
+EscapedQuote: '\\"' -> type(Grapheme);
+EscapedBackslash: '\\\\' -> type(Grapheme);
+ExprStart: '{' -> type(CurlyOpen), pushMode(DEFAULT_MODE);
+EndDouble: '"' -> type(DoubleQuote), popMode;
+Grapheme: ~('{' | '"' | '\n' | '\r');

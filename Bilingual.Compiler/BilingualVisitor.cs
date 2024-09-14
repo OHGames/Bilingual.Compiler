@@ -129,17 +129,6 @@ namespace Bilingual.Compiler
             return new InterpolatedString(expressions);
         }
 
-        public override Literal VisitTextStringContent([NotNull] BilingualParser.TextStringContentContext context)
-        {
-            return new Literal(context.GetText());
-        }
-
-        public override Expression VisitExpressionStringContent(
-            [NotNull] BilingualParser.ExpressionStringContentContext context)
-        {
-            return VisitExpression(context.expression());
-        }
-
         public override Literal VisitDialogueEmotion([NotNull] BilingualParser.DialogueEmotionContext context)
         {
             return new Literal(context.MemberName().ToString()!);
@@ -855,6 +844,11 @@ namespace Bilingual.Compiler
             return new Literal((quantity: pluralType, text: str));
         }
 
+        public override BilingualObject VisitLotsOfGraphemes([NotNull] BilingualParser.LotsOfGraphemesContext context)
+        {
+            return new Literal(context.GetText());
+        }
+
         /// <summary>
         /// If a parse context is null, return null dont visit.
         /// </summary>
@@ -970,9 +964,19 @@ namespace Bilingual.Compiler
             return base.VisitLiteralExpr(context);
         }
 
-        public override LocalizedQuanity VisitPluralizedStringContent([NotNull] BilingualParser.PluralizedStringContentContext context)
+        public override BilingualObject VisitStringContentPluralized([NotNull] BilingualParser.StringContentPluralizedContext context)
         {
             return VisitPluralizedQuantity(context.pluralizedQuantity());
+        }
+
+        public override BilingualObject VisitStringContentExpr([NotNull] BilingualParser.StringContentExprContext context)
+        {
+            return VisitExpression(context.expression());
+        }
+
+        public override BilingualObject VisitStringContentGraphemes([NotNull] BilingualParser.StringContentGraphemesContext context)
+        {
+            return VisitLotsOfGraphemes(context.lotsOfGraphemes());
         }
     }
 }

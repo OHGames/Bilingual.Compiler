@@ -785,7 +785,7 @@ public partial class BilingualParserBaseVisitor<Result> : AbstractParseTreeVisit
 	/// <return>The visitor result.</return>
 	public virtual Result VisitIncrementsAndDecrements([NotNull] BilingualParser.IncrementsAndDecrementsContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>TextStringContent</c>
+	/// Visit a parse tree produced by the <c>StringContentGraphemes</c>
 	/// labeled alternative in <see cref="BilingualParser.stringContents"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -794,9 +794,9 @@ public partial class BilingualParserBaseVisitor<Result> : AbstractParseTreeVisit
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitTextStringContent([NotNull] BilingualParser.TextStringContentContext context) { return VisitChildren(context); }
+	public virtual Result VisitStringContentGraphemes([NotNull] BilingualParser.StringContentGraphemesContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>ExpressionStringContent</c>
+	/// Visit a parse tree produced by the <c>StringContentExpr</c>
 	/// labeled alternative in <see cref="BilingualParser.stringContents"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -805,9 +805,9 @@ public partial class BilingualParserBaseVisitor<Result> : AbstractParseTreeVisit
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitExpressionStringContent([NotNull] BilingualParser.ExpressionStringContentContext context) { return VisitChildren(context); }
+	public virtual Result VisitStringContentExpr([NotNull] BilingualParser.StringContentExprContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>PluralizedStringContent</c>
+	/// Visit a parse tree produced by the <c>StringContentPluralized</c>
 	/// labeled alternative in <see cref="BilingualParser.stringContents"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -816,7 +816,17 @@ public partial class BilingualParserBaseVisitor<Result> : AbstractParseTreeVisit
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitPluralizedStringContent([NotNull] BilingualParser.PluralizedStringContentContext context) { return VisitChildren(context); }
+	public virtual Result VisitStringContentPluralized([NotNull] BilingualParser.StringContentPluralizedContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BilingualParser.lotsOfGraphemes"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitLotsOfGraphemes([NotNull] BilingualParser.LotsOfGraphemesContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="BilingualParser.interpolationString"/>.
 	/// <para>

@@ -498,26 +498,32 @@ public interface IBilingualParserVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitIncrementsAndDecrements([NotNull] BilingualParser.IncrementsAndDecrementsContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>TextStringContent</c>
+	/// Visit a parse tree produced by the <c>StringContentGraphemes</c>
 	/// labeled alternative in <see cref="BilingualParser.stringContents"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitTextStringContent([NotNull] BilingualParser.TextStringContentContext context);
+	Result VisitStringContentGraphemes([NotNull] BilingualParser.StringContentGraphemesContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>ExpressionStringContent</c>
+	/// Visit a parse tree produced by the <c>StringContentExpr</c>
 	/// labeled alternative in <see cref="BilingualParser.stringContents"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitExpressionStringContent([NotNull] BilingualParser.ExpressionStringContentContext context);
+	Result VisitStringContentExpr([NotNull] BilingualParser.StringContentExprContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>PluralizedStringContent</c>
+	/// Visit a parse tree produced by the <c>StringContentPluralized</c>
 	/// labeled alternative in <see cref="BilingualParser.stringContents"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitPluralizedStringContent([NotNull] BilingualParser.PluralizedStringContentContext context);
+	Result VisitStringContentPluralized([NotNull] BilingualParser.StringContentPluralizedContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="BilingualParser.lotsOfGraphemes"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLotsOfGraphemes([NotNull] BilingualParser.LotsOfGraphemesContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="BilingualParser.interpolationString"/>.
 	/// </summary>
