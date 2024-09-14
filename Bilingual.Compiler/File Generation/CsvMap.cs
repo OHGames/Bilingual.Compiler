@@ -71,7 +71,6 @@ namespace Bilingual.Compiler.FileGeneration
                         // Get rid of the last space and comma.
                         str = str[..^2];
                         str += "}=";
-                        return str;
                     }
                     else
                     {
