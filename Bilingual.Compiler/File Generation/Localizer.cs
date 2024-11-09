@@ -260,7 +260,7 @@ namespace Bilingual.Compiler.FileGeneration
         {
             foreach (var file in files)
             {
-                Log($"\tCreasing csv for {Path.GetFileName(file.FilePath)}");
+                Log($"\tCreating csv for {Path.GetFileName(file.FilePath)}");
                 GenerateCsv(file, temp);
             }
 
